@@ -70,7 +70,6 @@ class Ship
     public function setWeaponPower(int $weaponPower): self
     {
         $this->weaponPower = $weaponPower;
-
         return $this;
     }
 

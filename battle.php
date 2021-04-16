@@ -2,29 +2,31 @@
 ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
+$createItemInTable = new CreateStatisticsTable($container->getPDO());
+
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
 
-$ship1Id = $_POST['ship1_id'] ?? null;
+$ship1Id = (int) $_POST['ship1_id'] ?? null;
 $ship1Quantity = $_POST['ship1_quantity'] ?? 1;
-$ship2Id = $_POST['ship2_id'] ?? null;
+$ship2Id = (int) $_POST['ship2_id'] ?? null;
 $ship2Quantity = $_POST['ship2_quantity'] ?? 1;
 
 $ship1 = $shipLoader->find($ship1Id);
 $ship2 = $shipLoader->find($ship2Id);
 
 if ($ship1Id === null || $ship2Id === null) {
-    header('Location: /index.php?error=missing_data');
+    header('Location: /mysite/lesson3/index.php?error=missing_data');
     die();
 }
 
 if ($ship1 === null || $ship2 === null) {
-    header('Location: /index.php?error=bad_ships');
+    header('Location: /mysite/lesson3/index.php?error=bad_ships');
     die();
 }
 
 if ($ship1Quantity <= 0 || $ship2Quantity <= 0) {
-    header('Location: /index.php?error=bad_quantities');
+    header('Location: /mysite/lesson3/index.php?error=bad_quantities');
     die();
 }
 
@@ -82,9 +84,11 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             if ($battleResult->isHereAWinner()): ?>
                 <?php
-                echo $battleResult->getWinningShip()->getName(); ?>
+                echo $battleResult->getWinningShip()->getName();
+                $aWinner = $battleResult->getWinningShip()->getName();?>
             <?php
-            else: ?>
+            else:?>
+                <?php $aWinner = 'Ничья';?>
                 Ничья
             <?php
             endif; ?>
@@ -117,29 +121,15 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             endif; ?>
             <?php
-            $createItemInTable = new CreateSessionTable();
-            if ($battleResult->isHereAWinner()){
-            $createItemInTable->createItemInTable(
-                    $container->getPDO(),
-                    $battleResult->getWinningShip()->getName(),
-                    $ship1->getName(),
-                    $ship1Quantity,
-                    $ship1->getStrength(),
-                    $ship2->getName(),
-                    $ship2Quantity,
-                    $ship2->getStrength(),
-            );}
-            else {
-            $createItemInTable->createItemInTable(
-                    $container->getPDO(),
-                    $draw = 'Draw',
-                    $ship1->getName(),
-                    $ship1Quantity,
-                    $ship1->getStrength(),
-                    $ship2->getName(),
-                    $ship2Quantity,
-                    $ship2->getStrength(),
-            );}
+                $createItemInTable->createItemInTable(
+                        $aWinner,
+                        $ship1->getName(),
+                        $ship1Quantity,
+                        $ship1->getStrength(),
+                        $ship2->getName(),
+                        $ship2Quantity,
+                        $ship2->getStrength(),
+                );
             ?>
         </p>
         <a href="/mysite/lesson3/battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>

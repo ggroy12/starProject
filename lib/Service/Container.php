@@ -12,6 +12,8 @@ class Container
 
     private ?ShipLoader $shipLoader = null;
 
+    private ?StatisticsLoader $statisticsLoader = null;
+
     public function __construct(
         array $configuration
     ) {
@@ -48,5 +50,14 @@ class Container
         }
 
         return $this->shipLoader;
+    }
+
+    public function getSessionLoader(): StatisticsLoader
+    {
+        if ($this->statisticsLoader === null) {
+            $this->statisticsLoader = new StatisticsLoader($this->getPDO());
+        }
+
+        return $this->statisticsLoader;
     }
 }

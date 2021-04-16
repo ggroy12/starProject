@@ -13,7 +13,9 @@ require __DIR__ . '/lib/Service/Container.php';
 require __DIR__ . '/lib/Service/BattleManager.php';
 require __DIR__ . '/lib/Service/ShipLoader.php';
 require __DIR__ . '/lib/Service/Pagination.php';
-require __DIR__ . '/lib/Service/CreateSessionTable.php';
+require __DIR__ . '/lib/Service/StatisticsLoader.php';
+require __DIR__ . '/lib/Service/CreateStatisticsTable.php';
+require __DIR__ . '/lib/Model/Statistics.php';
 require __DIR__ . '/lib/Model/BattleResult.php';
 require __DIR__ . '/lib/Model/Ship.php';
 

@@ -3,18 +3,26 @@
 
 class Pagination
 {
-    public function numberOfColumnsInTable($pdo):string {
-        $result = $pdo->query("SELECT COUNT(*) as count FROM battle_history");
+    private PDO $pdo;
+
+    public function __construct(
+        PDO $pdo
+    ) {
+        $this->pdo = $pdo;
+    }
+    public function numberOfColumnsInTable():string {
+        $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
         foreach ($result as $item) {
             return $item['count'];
         }
     }
 
-    public function pagesCount($count, $numberOfNextRecords): int{
-        return ceil($count/$numberOfNextRecords);
-    }
-
-    public function pagination($page, $pagesCount) {
+    public function pagination(
+        $page,
+        $count,
+        $numberOfNextRecords,
+    ) {
+        $pagesCount = ceil($count/$numberOfNextRecords);
         $backPage = ($page-1);
         $onwardPage = ($page+1);
         if ($backPage !== 0){
