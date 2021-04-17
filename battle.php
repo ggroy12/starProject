@@ -16,17 +16,17 @@ $ship1 = $shipLoader->find($ship1Id);
 $ship2 = $shipLoader->find($ship2Id);
 
 if ($ship1Id === null || $ship2Id === null) {
-    header('Location: /mysite/lesson3/index.php?error=missing_data');
+    header('Location: index.php?error=missing_data');
     die();
 }
 
 if ($ship1 === null || $ship2 === null) {
-    header('Location: /mysite/lesson3/index.php?error=bad_ships');
+    header('Location: index.php?error=bad_ships');
     die();
 }
 
 if ($ship1Quantity <= 0 || $ship2Quantity <= 0) {
-    header('Location: /mysite/lesson3/index.php?error=bad_quantities');
+    header('Location: index.php?error=bad_quantities');
     die();
 }
 
@@ -132,9 +132,9 @@ $battleResult = $container->getBattleManager()->battle(
                 );
             ?>
         </p>
-        <a href="/mysite/lesson3/battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
+        <a href="battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
     </div>
-    <a href="/mysite/lesson3/index.php"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
+    <a href="index.php"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
