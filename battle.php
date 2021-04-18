@@ -85,10 +85,10 @@ $battleResult = $container->getBattleManager()->battle(
             if ($battleResult->isHereAWinner()): ?>
                 <?php
                 echo $battleResult->getWinningShip()->getName();
-                $aWinner = $battleResult->getWinningShip()->getName();?>
+                $aWinner = $battleResult->getWinningShip()->getId();?>
             <?php
             else:?>
-                <?php $aWinner = 'Ничья';?>
+                <?php $aWinner = 0;?>
                 Ничья
             <?php
             endif; ?>
@@ -123,10 +123,10 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
                 $createItemInTable->createItemInTable(
                         $aWinner,
-                        $ship1->getName(),
+                        $ship1->getId(),
                         $ship1Quantity,
                         $ship1->getStrength(),
-                        $ship2->getName(),
+                        $ship2->getId(),
                         $ship2Quantity,
                         $ship2->getStrength(),
                 );

@@ -36,6 +36,7 @@ class Pagination
             }
         }
         if ($onwardPage < $i){
-            echo "<a href='?page=$onwardPage'>>> </a>";}
+            echo "<a href='?page=$onwardPage'>>> </a>";
+        }
     }
 }

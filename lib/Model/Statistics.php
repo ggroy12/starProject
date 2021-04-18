@@ -5,15 +5,15 @@ class Statistics
 {
     private int $id;
 
-    private string $nameWinningShip;
+    private int $nameWinningShip;
 
-    private string $nameShip1;
+    private int $nameShip1;
 
     private int $ship1Quantity = 0;
 
     private int $remainingStrength1 = 0;
 
-    private string $nameShip2;
+    private int $nameShip2;
 
     private int $ship2Quantity = 0;
 
@@ -23,11 +23,11 @@ class Statistics
 
     public function __construct(
         int $id,
-        string $nameWinningShip,
-        string $nameShip1,
+        int $nameWinningShip,
+        int $nameShip1,
         int $ship1Quantity,
         int $remainingStrength1,
-        string $nameShip2,
+        int $nameShip2,
         int $ship2Quantity,
         int $remainingStrength2,
         string $timeBattle
@@ -48,12 +48,12 @@ class Statistics
         return $this->id;
     }
 
-    public function getNameWinningShip(): string
+    public function getNameWinningShip(): int
     {
         return $this->nameWinningShip;
     }
 
-    public function getNameShip1(): string
+    public function getNameShip1(): int
     {
         return $this->nameShip1;
     }
@@ -68,7 +68,7 @@ class Statistics
         return $this->remainingStrength1;
     }
 
-    public function getNameShip2(): string
+    public function getNameShip2(): int
     {
         return $this->nameShip2;
     }

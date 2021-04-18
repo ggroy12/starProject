@@ -16,14 +16,14 @@ class CreateStatisticsTable
         $this->pdo->exec('DROP TABLE IF EXISTS battle_history;');
         $this->pdo->exec('CREATE TABLE `battle_history` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
-        `nameWinningShip` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `nameShip1` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+        `nameWinningShip` int(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+        `nameShip1` int(6) COLLATE utf8mb4_unicode_ci NOT NULL,
         `ship1Quantity` int NOT NULL,
         `remainingStrength1` int(6) NOT NULL,
-        `nameShip2` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+        `nameShip2` int(6) COLLATE utf8mb4_unicode_ci NOT NULL,
         `ship2Quantity` int NOT NULL,
         `remainingStrength2` int(6) NOT NULL,
-        `timeBattle` varchar (5) NOT NULL,
+        `timeBattle` DATETIME(0) NOT NULL,
         PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
     }
@@ -58,6 +58,6 @@ class CreateStatisticsTable
         }
 
     public function timeNow(){
-        return date('H:i');
+        return date('Y:m:d:H:i:s');
     }
 }

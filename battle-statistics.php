@@ -4,6 +4,7 @@ require __DIR__ . '/bootstrap.php';
 
 $count = new Pagination($container->getPDO());
 $pagination = new Pagination($container->getPDO());
+$shipLoader = new StatisticsLoader($container->getPDO());
 
 if (!empty($_POST['cleanButton'])){
     $createTable = new CreateStatisticsTable($container->getPDO());
@@ -17,7 +18,7 @@ $numberOfNextRecords = 50;
 $form = ($page - 1) * $numberOfNextRecords;
 
 $statisticsLoader = $container->getSessionLoader();
-$statistics = $statisticsLoader->getSession($form, $numberOfNextRecords);
+$statistics = $statisticsLoader->getStatistics($form, $numberOfNextRecords);
 $numberOfDelimiter = 0;
 ?>
 
@@ -33,21 +34,21 @@ $numberOfDelimiter = 0;
 <div class="divBasic">
     <h2 class="headlines">Сухая статистика</h2>
     <?php
-    /*_________________Кнопки пагинации______________*/
+    /*_________________Pagination button______________*/
     $count = $count->numberOfColumnsInTable();
     $pagination->pagination($page, $count, $numberOfNextRecords);
     ?>
     <table cellpadding="5" class="table">
         <tr class="tr">
-            <th width="1%">⠀№⠀</th>
-            <th width="3%">Номер боя</th>
-            <th width="15%">Победившие корабли</th>
-            <th width="15%">Первая група игравших кораблей</th>
-            <th width="11%">Количество первых кораблей</th>
-            <th width="11%">Оставшиеся очки прочности первых</th>
+            <th width="">⠀№⠀</th>
+            <th width="">Номер боя</th>
+            <th width="">Победившие корабли</th>
+            <th width="">Первая група игравших кораблей</th>
+            <th width="">Количество первых кораблей</th>
+            <th width="">Оставшиеся очки прочности первых</th>
             <th>Вторая група игравших кораблей</th>
-            <th width="11%">Количество вторых кораблей</th>
-            <th width="11%">Оставшиеся очки прочности вторых</th>
+            <th width="">Количество вторых кораблей</th>
+            <th width="">Оставшиеся очки прочности вторых</th>
             <th width="">Время битвы</th>
 
         </tr>
@@ -58,11 +59,11 @@ $numberOfDelimiter = 0;
         <tr>
             <td><?php echo $numberOfDelimiter; ?></td>
             <td><?php echo $item->getId(); ?></td>
-            <td><?php echo $item->getNameWinningShip(); ?></td>
-            <td><?php echo $item->getNameShip1(); ?></td>
+            <td><?php echo $shipLoader->transformIdToShip($item->getNameWinningShip()) ?></td>
+            <td><?php echo $shipLoader->transformIdToShip($item->getNameShip1()); ?></td>
             <td><?php echo $item->getShip1Quantity(); ?></td>
             <td><?php echo $item->getRemainingStrength1(); ?></td>
-            <td><?php echo $item->getNameShip2(); ?></td>
+            <td><?php echo $shipLoader->transformIdToShip($item->getNameShip2()); ?></td>
             <td><?php echo $item->getShip2Quantity(); ?></td>
             <td><?php echo $item->getRemainingStrength2(); ?></td>
             <td><?php echo $item->getTimeBattle(); ?></td>
@@ -75,7 +76,7 @@ $numberOfDelimiter = 0;
     <form action="battle-statistics.php" method="POST">
         <input type="submit" name="cleanButton" id="buttonCleanImg" title="Очистить статистику" value="Clean">
     </form>
-    <a href='/mysite/lesson3/index.php' title="Обратно в бой!"><img src="picture/swords.png" id="buttonBattleImg" ></a>
+    <a href='index.php' title="Обратно в бой!"><img src="picture/swords.png" id="buttonBattleImg" ></a>
 </div>
 </body>
 </html>
