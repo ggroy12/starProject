@@ -11,7 +11,7 @@ class CreateStatisticsTable
         $this->pdo = $pdo;
     }
 
-    /*Функция для кнопки сброса таблицы БД battle_history*/
+    /*Function for the table reset button BD battle_history*/
     public function recreateTheTable():void {
         $this->pdo->exec('DROP TABLE IF EXISTS battle_history;');
         $this->pdo->exec('CREATE TABLE `battle_history` (
