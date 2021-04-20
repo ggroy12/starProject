@@ -14,6 +14,8 @@ class Container
 
     private ?StatisticsLoader $statisticsLoader = null;
 
+    private ?ShipStorageInterface $shipStorage = null;
+
     public function __construct(
         array $configuration
     ) {
@@ -46,7 +48,7 @@ class Container
     public function getShipLoader(): ShipLoader
     {
         if ($this->shipLoader === null) {
-            $this->shipLoader = new ShipLoader($this->getPDO());
+            $this->shipLoader = new ShipLoader($this->getShipStorage());
         }
 
         return $this->shipLoader;
@@ -59,5 +61,15 @@ class Container
         }
 
         return $this->statisticsLoader;
+    }
+
+    public function getShipStorage(): ShipStorageInterface
+    {
+        if ($this->shipStorage === null){
+//            $this->shipStorage = new PdoShipStorage($this->getPDO());
+            $this->shipStorage = new JsonFileShipStorage(__DIR__ . '/../../resources/ships.json');
+
+            return $this->shipStorage;
+        }
     }
 }

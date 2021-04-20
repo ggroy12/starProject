@@ -29,15 +29,16 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // initialize the table
 $pdo->exec('DROP TABLE IF EXISTS ship;');
-$pdo->exec('CREATE TABLE `ship` (
+$pdo->exec("CREATE TABLE `ship` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
  `weapon_power` int(4) NOT NULL,
  `jedi_factor` int(4) NOT NULL,
  `strength` int(4) NOT NULL,
  `is_under_repair` tinyint(1) NOT NULL,
+ `team` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'empire',
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
 /*
  * INSERT SOME DATA!
@@ -58,6 +59,11 @@ $pdo->exec('INSERT INTO ship
 $pdo->exec('INSERT INTO ship
     (name, weapon_power, jedi_factor, strength, is_under_repair) VALUES
     ("RZ-1 A-wing interceptor", 4, 4, 50, 0)'
+);
+
+$pdo->exec('INSERT INTO ship
+    (name, weapon_power, jedi_factor, strength, is_under_repair, team) VALUES
+    ("Rebel Cool Ship", 30, 35, 5, 0, "rebel")'
 );
 
 echo 'Ding!';

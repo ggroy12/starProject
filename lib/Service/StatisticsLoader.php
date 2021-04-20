@@ -4,7 +4,7 @@ declare(strict_types=1);
 class StatisticsLoader
 {
     private PDO $pdo;
-    private ?ShipLoader $shipLoader = null;
+    private ?PdoShipStorage $shipLoader = null;
 
     public function __construct(
         PDO $pdo,
@@ -43,13 +43,14 @@ class StatisticsLoader
     public function transformIdToShip($idShip): string
     {
         if ($this->shipLoader === null) {
-            $this->shipLoader = new ShipLoader($this->pdo);
+            $this->shipLoader = new PdoShipStorage($this->pdo);
         }
         if ($idShip == 0){
             return 'Ничья';
         }
-        $ships = $this->shipLoader->getShips();
-        $ship = $this->shipLoader->find($idShip);
+        $ships = $this->shipLoader->getAllShips();
+        $ship = $this->shipLoader->getSingleShip($idShip);
+
         return $ship->getName();
     }
 }

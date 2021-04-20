@@ -6,6 +6,9 @@ require __DIR__ . '/bootstrap.php';
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
 
+$brokenShip = new BrokenShip('Just a hunk of metal');
+$ships[] = $brokenShip;
+
 $errorMessage = '';
 if (isset($_GET['error'])) {
     switch ($_GET['error']) {
@@ -63,6 +66,9 @@ if (isset($_GET['error'])) {
                         <th>Атака</th>
                         <th>Сила Джедая</th>
                         <th>Прочность</th>
+                        <th>Функционирует?</th>
+                        <th>Команда</th>
+                        <th>Короткая информация</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,6 +78,9 @@ if (isset($_GET['error'])) {
                             <td><?php echo $ship->getWeaponPower(); ?></td>
                             <td><?php echo $ship->getJediFactor(); ?></td>
                             <td><?php echo $ship->getStrength(); ?></td>
+                            <td><?php echo $ship->isFunctional() ? 'Да' : 'Нет'; ?></td>
+                            <td><?php echo $ship->getTeam(); ?></td>
+                            <td><?php echo $ship->getNameAndSpecs(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

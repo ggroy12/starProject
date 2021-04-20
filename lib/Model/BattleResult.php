@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 class BattleResult
 {
-    private ?Ship $winningShip;
+    private ?AbstractShip $winningShip;
 
-    private ?Ship $losingShip;
+    private ?AbstractShip $losingShip;
 
     private bool $usedJediPowers;
 
     public function __construct(
-        ?Ship $winningShip,
-        ?Ship $losingShip,
+        ?AbstractShip $winningShip,
+        ?AbstractShip $losingShip,
         bool $usedJediPowers
     ) {
         $this->winningShip = $winningShip;
@@ -20,12 +20,12 @@ class BattleResult
         $this->usedJediPowers = $usedJediPowers;
     }
 
-    public function getWinningShip(): ?Ship
+    public function getWinningShip(): ?AbstractShip
     {
         return $this->winningShip;
     }
 
-    public function getLosingShip(): ?Ship
+    public function getLosingShip(): ?AbstractShip
     {
         return $this->losingShip;
     }
