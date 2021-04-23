@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 class JsonFileShipStorage implements ShipStorageInterface
@@ -27,8 +28,8 @@ class JsonFileShipStorage implements ShipStorageInterface
 
     public function getSingleShip(int $id): ?AbstractShip
     {
-        foreach ($this->getAllShips() as $ship){
-            if ($ship->getId() === $id){
+        foreach ($this->getAllShips() as $ship) {
+            if ($ship->getId() === $id) {
                 return $ship;
             }
         }
@@ -37,18 +38,15 @@ class JsonFileShipStorage implements ShipStorageInterface
 
     private function transformDataToShip(array $data): AbstractShip
     {
-        if ($data['team'] === 'rebel'){
+        if ($data['team'] === 'rebel') {
             $ship = new RebelShip($data['name']);
-        }
-        else {
+        } else {
             $ship = new Ship($data['name']);
-            $ship->setJediFactor((int) $data['jedi_factor']);
-
+            $ship->setJediFactor((int)$data['jedi_factor']);
         }
-        $ship->setId((int) $data['id'])
-            ->setWeaponPower((int) $data['weapon_power'])
-            ->setStrength((int) $data['strength'])
-        ;
+        $ship->setId((int)$data['id'])
+            ->setWeaponPower((int)$data['weapon_power'])
+            ->setStrength((int)$data['strength']);
 
         return $ship;
     }

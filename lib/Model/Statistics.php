@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-class Statistics
+class Statistic
 {
     private int $id;
 

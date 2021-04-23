@@ -12,9 +12,11 @@ class Container
 
     private ?ShipLoader $shipLoader = null;
 
-    private ?StatisticsLoader $statisticsLoader = null;
-
     private ?ShipStorageInterface $shipStorage = null;
+
+    private ?StatisticsWriteInterface $statisticsWrite = null;
+
+    private ?StatisticsStorageInterface $statisticsStorage = null;
 
     public function __construct(
         array $configuration
@@ -36,6 +38,16 @@ class Container
         return $this->pdo;
     }
 
+    public function getLocalFileShipsJson(): string
+    {
+        return __DIR__ . '/../../resources/ships.json';
+    }
+
+    public function getLocalFileStatisticsJson(): string
+    {
+        return __DIR__ . "/../../resources/statistics.json";
+    }
+
     public function getBattleManager(): BattleManager
     {
         if ($this->battleManager === null) {
@@ -54,22 +66,54 @@ class Container
         return $this->shipLoader;
     }
 
-    public function getSessionLoader(): StatisticsLoader
-    {
-        if ($this->statisticsLoader === null) {
-            $this->statisticsLoader = new StatisticsLoader($this->getPDO());
-        }
-
-        return $this->statisticsLoader;
-    }
-
     public function getShipStorage(): ShipStorageInterface
     {
-        if ($this->shipStorage === null){
+        if ($this->shipStorage === null) {
 //            $this->shipStorage = new PdoShipStorage($this->getPDO());
-            $this->shipStorage = new JsonFileShipStorage(__DIR__ . '/../../resources/ships.json');
+            $this->shipStorage = new JsonFileShipStorage($this->getLocalFileShipsJson());
 
             return $this->shipStorage;
         }
+    }
+
+    public function getStatisticsWrite(): StatisticsWriteInterface
+    {
+        if ($this->statisticsWrite === null) {
+            if ($this->checkShipStorage() === 'PdoShipStorage') {
+                $this->statisticsWrite = new CreateStatisticsTable($this->getPDO());
+            } elseif ($this->checkShipStorage() === 'JsonFileShipStorage') {
+                $this->statisticsWrite = new JsonFileStatisticsWrite($this->getLocalFileStatisticsJson());
+            }
+
+            return $this->statisticsWrite;
+        }
+    }
+
+    public function getStatisticsStorage(): StatisticsStorageInterface
+    {
+        if ($this->statisticsStorage === null) {
+            if ($this->checkShipStorage() === 'PdoShipStorage') {
+                $this->statisticsStorage = new StatisticsLoaderFromDatabase($this->getPDO());
+            } elseif ($this->checkShipStorage() === 'JsonFileShipStorage') {
+                $this->statisticsStorage = new JsonFileStatisticsLoader(
+                    $this->getLocalFileStatisticsJson(),
+                    $this->getLocalFileShipsJson(),
+                );
+            }
+
+            return $this->statisticsStorage;
+        }
+    }
+
+    public function readShipStorage(): string
+    {
+        $session = new Session();
+        return $session->set('shipStorage', get_class($this->shipStorage));
+    }
+
+    public function checkShipStorage(): string
+    {
+        $chekShipStorage = new Session();
+        return $chekShipStorage->get('shipStorage');
     }
 }

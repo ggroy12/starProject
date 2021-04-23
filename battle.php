@@ -1,40 +1,41 @@
 <?php
+
 ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
-$createItemInTable = new CreateStatisticsTable($container->getPDO());
+$addItemInTable = $container->getStatisticsWrite();
 
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
 
-$ship1Id = (int) $_POST['ship1_id'] ?? null;
+$ship1Id = (int)$_POST['ship1_id'] ?? null;
 $ship1Quantity = $_POST['ship1_quantity'] ?? 1;
-$ship2Id = (int) $_POST['ship2_id'] ?? null;
+$ship2Id = (int)$_POST['ship2_id'] ?? null;
 $ship2Quantity = $_POST['ship2_quantity'] ?? 1;
 
 $ship1 = $shipLoader->find($ship1Id);
 $ship2 = $shipLoader->find($ship2Id);
 
 if ($ship1Id === null || $ship2Id === null) {
-    header('Location: index.php?error=missing_data');
+    header('Location: /index.php?error=missing_data');
     die();
 }
 
 if ($ship1 === null || $ship2 === null) {
-    header('Location: index.php?error=bad_ships');
+    header('Location: /index.php?error=bad_ships');
     die();
 }
 
 if ($ship1Quantity <= 0 || $ship2Quantity <= 0) {
-    header('Location: index.php?error=bad_quantities');
+    header('Location: /index.php?error=bad_quantities');
     die();
 }
 
 $battleResult = $container->getBattleManager()->battle(
-        $ship1,
-        $ship1Quantity,
-        $ship2,
-        $ship2Quantity
+    $ship1,
+    $ship1Quantity,
+    $ship2,
+    $ship2Quantity
 );
 ?>
 
@@ -85,20 +86,25 @@ $battleResult = $container->getBattleManager()->battle(
             if ($battleResult->isHereAWinner()): ?>
                 <?php
                 echo $battleResult->getWinningShip()->getName();
-                $aWinner = $battleResult->getWinningShip()->getId();?>
+                $aWinner = $battleResult->getWinningShip()->getId(); ?>
             <?php
             else:?>
-                <?php $aWinner = 0;?>
+                <?php
+                $aWinner = null; ?>
                 Ничья
             <?php
             endif; ?>
 
             <h3>Остаток прочности</h3>
             <dl class="dl-horizontal">
-                <dt><?php echo $ship1->getName(); ?></dt>
-                <dd><?php echo $ship1->getStrength(); ?></dd>
-                <dt><?php echo $ship2->getName(); ?></dt>
-                <dd><?php echo $ship2->getStrength(); ?></dd>
+                <dt><?php
+                    echo $ship1->getName(); ?></dt>
+                <dd><?php
+                    echo $ship1->getStrength(); ?></dd>
+                <dt><?php
+                    echo $ship2->getName(); ?></dt>
+                <dd><?php
+                    echo $ship2->getStrength(); ?></dd>
             </dl>
         </h3>
         <p class="text-center">
@@ -108,7 +114,8 @@ $battleResult = $container->getBattleManager()->battle(
                 Корабли уничтожили друг друга в эпической битве.
             <?php
             else: ?>
-                <?php echo $battleResult->getWinningShip()->getName(); ?>
+                <?php
+                echo $battleResult->getWinningShip()->getName(); ?>
                 <?php
                 if ($battleResult->isUsedJediPowers()): ?>
                     использовал свои Силу Джедая для ошеломляющей победы!
@@ -121,20 +128,20 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             endif; ?>
             <?php
-                $createItemInTable->createItemInTable(
-                        $aWinner,
-                        $ship1->getId(),
-                        $ship1Quantity,
-                        $ship1->getStrength(),
-                        $ship2->getId(),
-                        $ship2Quantity,
-                        $ship2->getStrength(),
-                );
+            $addItemInTable->addItemInTable(
+                $aWinner,
+                $ship1->getId(),
+                $ship1Quantity,
+                $ship1->getStrength(),
+                $ship2->getId(),
+                $ship2Quantity,
+                $ship2->getStrength(),
+            );
             ?>
         </p>
-        <a href="battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
+        <a href="/battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
     </div>
-    <a href="index.php"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
+    <a href="/index.php"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
