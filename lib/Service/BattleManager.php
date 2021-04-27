@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Service;
 
+use Model\AbstractShip;
+use Model\BattleResult;
+
 class BattleManager
 {
     public const TYPE_NORMAL = 'normal';

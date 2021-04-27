@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Service;
 
+use Model\AbstractShip;
+use Model\RebelShip;
+use Model\Ship;
+
 class JsonFileShipStorage implements ShipStorageInterface
 {
     private string $filePath;

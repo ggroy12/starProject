@@ -3,6 +3,9 @@
 ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
+use Model\AbstractShip;
+use Model\BattleResult;
+
 $addItemInTable = $container->getStatisticsWrite();
 
 $shipLoader = $container->getShipLoader();
@@ -13,13 +16,13 @@ $ship1Quantity = $_POST['ship1_quantity'] ?? 1;
 $ship2Id = (int)$_POST['ship2_id'] ?? null;
 $ship2Quantity = $_POST['ship2_quantity'] ?? 1;
 
-$ship1 = $shipLoader->find($ship1Id);
-$ship2 = $shipLoader->find($ship2Id);
-
 if ($ship1Id === null || $ship2Id === null) {
     header('Location: /index.php?error=missing_data');
     die();
 }
+
+$ship1 = $shipLoader->find($ship1Id);
+$ship2 = $shipLoader->find($ship2Id);
 
 if ($ship1 === null || $ship2 === null) {
     header('Location: /index.php?error=bad_ships');

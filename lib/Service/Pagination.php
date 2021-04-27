@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Service;
 
+use PDO;
+
 class Pagination
 {
     private PDO $pdo;

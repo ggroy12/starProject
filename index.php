@@ -9,7 +9,6 @@ use Service\BattleManager;
 
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
-$container->readShipStorage();
 
 $brokenShip = new BrokenShip('Just a hunk of metal');
 $ships[] = $brokenShip;

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Service;
 
+use Model\Statistic;
+use PDO;
+
 class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
 {
     private PDO $pdo;
     private ?PdoShipStorage $shipLoader = null;
 
     public function __construct(
-        PDO $pdo,
+        PDO $pdo
     ) {
         $this->pdo = $pdo;
     }

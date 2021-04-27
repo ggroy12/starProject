@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Service;
 
+use Model\AbstractShip;
+
 class ShipLoader
 {
     private ShipStorageInterface $shipStorage;
@@ -14,6 +16,9 @@ class ShipLoader
         $this->shipStorage = $shipStorage;
     }
 
+    /**
+     * @return AbstractShip[]
+     */
     public function getShips(): array
     {
         return $this->shipStorage->getAllShips();

@@ -81,13 +81,11 @@ class Container
     }
 
     public function getStatisticsWrite(): StatisticsWriteInterface
+//    public function getStatisticsWrite()
     {
         if ($this->statisticsWrite === null) {
-            if ($this->checkShipStorage() === 'PdoShipStorage') {
                 $this->statisticsWrite = new CreateStatisticsTable($this->getPDO());
-            } elseif ($this->checkShipStorage() === 'JsonFileShipStorage') {
-                $this->statisticsWrite = new JsonFileStatisticsWrite($this->getLocalFileStatisticsJson());
-            }
+//                $this->statisticsWrite = new JsonFileStatisticsWrite($this->getLocalFileStatisticsJson());
 
             return $this->statisticsWrite;
         }
@@ -96,14 +94,11 @@ class Container
     public function getStatisticsStorage(): StatisticsStorageInterface
     {
         if ($this->statisticsStorage === null) {
-            if ($this->checkShipStorage() === 'PdoShipStorage') {
                 $this->statisticsStorage = new StatisticsLoaderFromDatabase($this->getPDO());
-            } elseif ($this->checkShipStorage() === 'JsonFileShipStorage') {
-                $this->statisticsStorage = new JsonFileStatisticsLoader(
-                    $this->getLocalFileStatisticsJson(),
-                    $this->getLocalFileShipsJson(),
-                );
-            }
+//                $this->statisticsStorage = new JsonFileStatisticsLoader(
+//                    $this->getLocalFileStatisticsJson(),
+//                    $this->getLocalFileShipsJson(),
+//                );
 
             return $this->statisticsStorage;
         }
@@ -112,12 +107,12 @@ class Container
     public function readShipStorage(): string
     {
         $session = new Session();
-        return $session->set('shipStorage', get_class($this->shipStorage));
+        return $session->set('methodStorage', get_class($this->statisticsStorage));
     }
 
     public function checkShipStorage(): string
     {
         $chekShipStorage = new Session();
-        return $chekShipStorage->get('shipStorage');
+        return $chekShipStorage->get('methodStorage');
     }
 }

@@ -3,13 +3,18 @@
 ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
+use Service\CreateStatisticsTable;
+use Service\JsonFileStatisticsWrite;
+use Service\Pagination;
+use Service\Session;
+
 $session = new Session();
 
 if (!empty($_POST['cleanButton'])) {
-    if ($container->checkShipStorage() === 'PdoShipStorage') {
+    if ($container->checkShipStorage() === 'StatisticsLoaderFromDatabase') {
         $recreateTable = new CreateStatisticsTable($container->getPDO());
         $recreateTable->recreateTheTable();
-    } elseif ($container->checkShipStorage() === 'JsonFileShipStorage') {
+    } elseif ($container->checkShipStorage() === 'JsonFileStatisticsLoader') {
         $recreateTable = new JsonFileStatisticsWrite($container->getLocalFileStatisticsJson());
         $recreateTable->recreateTheTable();
     }
@@ -33,6 +38,7 @@ $numberOfDelimiter = 0;
 
 $statisticsLoader = $container->getStatisticsStorage();
 $statistics = $statisticsLoader->getStatistics();
+$container->readShipStorage();
 ?>
 
 <html lang="ru">
