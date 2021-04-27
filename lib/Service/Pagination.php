@@ -43,7 +43,7 @@ class Pagination
         return ($this->page + 1);
     }
 
-    public function getPagesCount(): int
+    public function getPagesCount()
     {
         return ceil($this->getNumberOfColumnsInTable() / $this->numberOfNextRecords);
     }
@@ -51,12 +51,12 @@ class Pagination
     public function getNumberOfColumnsInTable()
     {
         $chekShipStorage = new Session();
-        if ($chekShipStorage->get('shipStorage') === 'PdoShipStorage') {
+        if ($chekShipStorage->get('methodStorage') === 'StatisticsLoaderFromDatabase') {
             $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
             foreach ($result as $item) {
                 return $item['count'];
             }
-        } elseif ($chekShipStorage->get('shipStorage') === 'JsonFileShipStorage') {
+        } elseif ($chekShipStorage->get('methodStorage') === 'JsonFileStatisticsLoader') {
             $file = file_get_contents($this->filePath);
             $arrayBattles = json_decode($file, true);
             if ($arrayBattles) {
