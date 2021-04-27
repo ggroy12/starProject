@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace Service;
+
+use PDO;
+
 class Container
 {
     private array $configuration;
@@ -69,8 +73,8 @@ class Container
     public function getShipStorage(): ShipStorageInterface
     {
         if ($this->shipStorage === null) {
-//            $this->shipStorage = new PdoShipStorage($this->getPDO());
-            $this->shipStorage = new JsonFileShipStorage($this->getLocalFileShipsJson());
+            $this->shipStorage = new PdoShipStorage($this->getPDO());
+//            $this->shipStorage = new JsonFileShipStorage($this->getLocalFileShipsJson());
 
             return $this->shipStorage;
         }

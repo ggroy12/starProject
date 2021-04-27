@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+namespace Model;
 
 class RebelShip extends AbstractShip
 {

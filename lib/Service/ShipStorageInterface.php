@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace Service;
+
+use Model\AbstractShip;
+
 interface ShipStorageInterface
 {
     /**

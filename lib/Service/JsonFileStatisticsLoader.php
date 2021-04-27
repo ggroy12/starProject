@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Service;
+
 class JsonFileStatisticsLoader implements StatisticsStorageInterface
 {
     private string $filePath;

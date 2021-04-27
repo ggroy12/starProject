@@ -1,7 +1,11 @@
 <?php
+
 ini_set('display_errors', 'on');
 
 require __DIR__ . '/bootstrap.php';
+
+use Model\BrokenShip;
+use Service\BattleManager;
 
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
@@ -108,6 +112,14 @@ if (isset($_GET['error'])) {
                                 <option value="<?php echo $ship->getId(); ?>"><?php echo $ship->getName(); ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <div class="text-center">
+                            <labe for="battle_type">Тип битвы</labe>
+                            <select name="battle_type" id="battle_type" class="form-control drp-dwn-width center-block">
+                                <?php foreach (BattleManager::getTypes() as $key => $type): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $type; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <br>
                         <button class="btn btn-md btn-danger center-block" type="submit">В атаку!</button>
                     </form>

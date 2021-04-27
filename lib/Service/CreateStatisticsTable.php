@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Service;
+
 class CreateStatisticsTable implements StatisticsWriteInterface
 {
     private PDO $pdo;

@@ -1,5 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
+namespace Service;
+
+use Model\AbstractShip;
+use Model\RebelShip;
+use Model\Ship;
+use PDO;
 
 class PdoShipStorage implements ShipStorageInterface
 {

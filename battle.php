@@ -31,11 +31,14 @@ if ($ship1Quantity <= 0 || $ship2Quantity <= 0) {
     die();
 }
 
+$battleType = $_POST['battle_type'] ?? 'normal';
+
 $battleResult = $container->getBattleManager()->battle(
     $ship1,
     $ship1Quantity,
     $ship2,
-    $ship2Quantity
+    $ship2Quantity,
+    $battleType
 );
 ?>
 

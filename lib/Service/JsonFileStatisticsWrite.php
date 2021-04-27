@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Service;
+
 class JsonFileStatisticsWrite implements StatisticsWriteInterface
 {
     private string $filePath;
