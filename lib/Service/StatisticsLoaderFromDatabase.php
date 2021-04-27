@@ -56,7 +56,7 @@ class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
         if ($this->shipLoader === null) {
             $this->shipLoader = new PdoShipStorage($this->pdo);
         }
-        if ($idShip == null) {
+        if ($idShip === null) {
             return 'Ничья';
         }
         $ships = $this->shipLoader->getAllShips();
