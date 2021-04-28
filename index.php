@@ -2,7 +2,7 @@
 ini_set('display_errors', 'on');
 
 require __DIR__ . '/bootstrap.php';
-
+echo "TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESTTTT";
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
 $container->readShipStorage();
