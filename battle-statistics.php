@@ -11,10 +11,10 @@ use Service\Session;
 $session = new Session();
 
 if (!empty($_POST['cleanButton'])) {
-    if ($container->checkShipStorage() === 'StatisticsLoaderFromDatabase') {
+    if ($container->checkShipStorage() == 'Service\StatisticsLoaderFromDatabase') {
         $recreateTable = new CreateStatisticsTable($container->getPDO());
         $recreateTable->recreateTheTable();
-    } elseif ($container->checkShipStorage() === 'JsonFileStatisticsLoader') {
+    } elseif ($container->checkShipStorage() == 'Service\JsonFileStatisticsLoader') {
         $recreateTable = new JsonFileStatisticsWrite($container->getLocalFileStatisticsJson());
         $recreateTable->recreateTheTable();
     }

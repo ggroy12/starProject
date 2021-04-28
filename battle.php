@@ -96,7 +96,7 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             else:?>
                 <?php
-                $aWinner = null; ?>
+                $aWinner = "NULL"; ?>
                 Ничья
             <?php
             endif; ?>

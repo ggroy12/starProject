@@ -23,7 +23,7 @@ class CreateStatisticsTable implements StatisticsWriteInterface
         $this->pdo->exec(
             'CREATE TABLE `battle_history` (
         `id` int (6) NOT NULL AUTO_INCREMENT,
-        `aWinnerId` int (6) NOT NULL,
+        `aWinnerId` int DEFAULT NULL,
         `nameShipId1` int (6) NOT NULL,
         `ship1Quantity` int (6) NOT NULL,
         `remainingStrength1` int (6) NOT NULL,
@@ -56,7 +56,7 @@ class CreateStatisticsTable implements StatisticsWriteInterface
                 remainingStrength2, 
                 timeBattle
                 )VALUES(
-                '{$aWinnerId}', 
+                ". $aWinnerId .", 
                 '{$shipNameId1}', 
                 '{$shipQuantity1}', 
                 '{$shipStrength1}', 

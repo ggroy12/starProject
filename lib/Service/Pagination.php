@@ -51,12 +51,12 @@ class Pagination
     public function getNumberOfColumnsInTable()
     {
         $chekShipStorage = new Session();
-        if ($chekShipStorage->get('methodStorage') === 'StatisticsLoaderFromDatabase') {
+        if ($chekShipStorage->get('methodStorage') === 'Service\StatisticsLoaderFromDatabase') {
             $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
             foreach ($result as $item) {
                 return $item['count'];
             }
-        } elseif ($chekShipStorage->get('methodStorage') === 'JsonFileStatisticsLoader') {
+        } elseif ($chekShipStorage->get('methodStorage') === 'Service\JsonFileStatisticsLoader') {
             $file = file_get_contents($this->filePath);
             $arrayBattles = json_decode($file, true);
             if ($arrayBattles) {

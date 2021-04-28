@@ -84,8 +84,8 @@ class Container
 //    public function getStatisticsWrite()
     {
         if ($this->statisticsWrite === null) {
-                $this->statisticsWrite = new CreateStatisticsTable($this->getPDO());
-//                $this->statisticsWrite = new JsonFileStatisticsWrite($this->getLocalFileStatisticsJson());
+//                $this->statisticsWrite = new CreateStatisticsTable($this->getPDO());
+                $this->statisticsWrite = new JsonFileStatisticsWrite($this->getLocalFileStatisticsJson());
 
             return $this->statisticsWrite;
         }
@@ -94,23 +94,23 @@ class Container
     public function getStatisticsStorage(): StatisticsStorageInterface
     {
         if ($this->statisticsStorage === null) {
-                $this->statisticsStorage = new StatisticsLoaderFromDatabase($this->getPDO());
-//                $this->statisticsStorage = new JsonFileStatisticsLoader(
-//                    $this->getLocalFileStatisticsJson(),
-//                    $this->getLocalFileShipsJson(),
-//                );
+//                $this->statisticsStorage = new StatisticsLoaderFromDatabase($this->getPDO());
+                $this->statisticsStorage = new JsonFileStatisticsLoader(
+                    $this->getLocalFileStatisticsJson(),
+                    $this->getLocalFileShipsJson(),
+                );
 
             return $this->statisticsStorage;
         }
     }
 
-    public function readShipStorage(): string
+    public function readShipStorage()
     {
         $session = new Session();
         return $session->set('methodStorage', get_class($this->statisticsStorage));
     }
 
-    public function checkShipStorage(): string
+    public function checkShipStorage()
     {
         $chekShipStorage = new Session();
         return $chekShipStorage->get('methodStorage');

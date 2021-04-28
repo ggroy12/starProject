@@ -13,7 +13,7 @@ $pdo->exec('DROP TABLE IF EXISTS battle_history;');
 $pdo->exec(
     'CREATE TABLE `battle_history` (
         `id` int (6) NOT NULL AUTO_INCREMENT,
-        `aWinnerId` int (6) NOT NULL,
+        `aWinnerId` int DEFAULT NULL,
         `nameShipId1` int (6) NOT NULL,
         `ship1Quantity` int (6) NOT NULL,
         `remainingStrength1` int (6) NOT NULL,
@@ -25,4 +25,4 @@ $pdo->exec(
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
 );
 
-echo 'Ding!';
+echo 'Ding Hi!';

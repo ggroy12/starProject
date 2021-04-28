@@ -51,12 +51,12 @@ class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
         );
     }
 
-    public function transformIdToShip($idShip): string
+    public function transformIdToShip($idShip): ?string
     {
         if ($this->shipLoader === null) {
             $this->shipLoader = new PdoShipStorage($this->pdo);
         }
-        if ($idShip === null) {
+        if (empty($idShip)) {
             return 'Ничья';
         }
         $ships = $this->shipLoader->getAllShips();

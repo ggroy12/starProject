@@ -59,7 +59,7 @@ class JsonFileStatisticsLoader implements StatisticsStorageInterface
         if ($this->shipLoader === null) {
             $this->shipLoader = new JsonFileShipStorage($this->fileShipsPath);
         }
-        if ($idShip == null) {
+        if (empty($idShip)) {
             return 'Ничья';
         }
         $ships = $this->shipLoader->getAllShips();
