@@ -48,11 +48,11 @@ class JsonFileShipStorage implements ShipStorageInterface
             $ship = new RebelShip($data['name']);
         } else {
             $ship = new Ship($data['name']);
-            $ship->setJediFactor((int)$data['jedi_factor']);
+            $ship->setJediFactor((int) $data['jedi_factor']);
         }
-        $ship->setId((int)$data['id'])
-            ->setWeaponPower((int)$data['weapon_power'])
-            ->setStrength((int)$data['strength']);
+        $ship->setId((int) $data['id'])
+            ->setWeaponPower((int) $data['weapon_power'])
+            ->setStrength((int) $data['strength']);
 
         return $ship;
     }

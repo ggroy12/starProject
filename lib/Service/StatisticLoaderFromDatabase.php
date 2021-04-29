@@ -21,11 +21,8 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
 
     public function getStatistic(): array
     {
-        $session = new Session();
-        $numberOfFirstRecords = $session->get('numberOfFirstRecords');
-        $numberOfNextPages = $session->get('numberOfNextRecords');
         $statement = $this->pdo->query(
-            "SELECT * FROM battle_history ORDER BY id DESC LIMIT $numberOfFirstRecords, $numberOfNextPages"
+            "SELECT * FROM battle_history"
         );
         $statement->execute();
         $dbStatistic = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -64,13 +61,5 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
         $ship = $this->shipLoader->getSingleShip($idShip);
 
         return $ship->getName();
-    }
-
-    public function getCount(): string
-    {
-        $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
-        foreach ($result as $item) {
-            return $item['count'];
-        }
     }
 }
