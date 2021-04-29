@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Service;
 
-class JsonFileStatisticsWrite implements StatisticsWriteInterface
+class JsonFileStatisticWrite implements StatisticWriteInterface
 {
     private string $filePath;
 
@@ -14,7 +14,7 @@ class JsonFileStatisticsWrite implements StatisticsWriteInterface
         $this->filePath = $filePath;
     }
 
-    public function addItemInTable(
+    public function add(
         $aWinnerId,
         $shipNameId1,
         $shipQuantity1,

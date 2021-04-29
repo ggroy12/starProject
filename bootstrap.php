@@ -8,10 +8,11 @@ use Service\Container;
 $configuration = [
     'db_dsn' => 'mysql:host=localhost;dbname=space_battle',
     'db_user' => 'space_battle',
-    'db_password' => 'space_battle'
+    'db_password' => 'space_battle',
+    'localFileShipsJson' => '/../../resources/ships.json',
+    'localFileStatisticJson' => '/../../resources/statistic.json'
 ];
 
 require __DIR__ . '/vendor/autoload.php';
-
 
 $container = new Container($configuration);

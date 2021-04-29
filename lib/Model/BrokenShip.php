@@ -6,7 +6,6 @@ namespace Model;
 
 class BrokenShip extends AbstractShip
 {
-
     public function getTeam(): string
     {
         return 'Broken';

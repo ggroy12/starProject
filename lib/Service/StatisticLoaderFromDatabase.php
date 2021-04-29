@@ -7,9 +7,10 @@ namespace Service;
 use Model\Statistic;
 use PDO;
 
-class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
+class StatisticLoaderFromDatabase implements StatisticStorageInterface
 {
     private PDO $pdo;
+
     private ?PdoShipStorage $shipLoader = null;
 
     public function __construct(
@@ -18,7 +19,7 @@ class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
         $this->pdo = $pdo;
     }
 
-    public function getStatistics(): array
+    public function getStatistic(): array
     {
         $session = new Session();
         $numberOfFirstRecords = $session->get('numberOfFirstRecords');
@@ -63,5 +64,13 @@ class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
         $ship = $this->shipLoader->getSingleShip($idShip);
 
         return $ship->getName();
+    }
+
+    public function getCount(): string
+    {
+        $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
+        foreach ($result as $item) {
+            return $item['count'];
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Service;
 
 use PDO;
 
-class CreateStatisticsTable implements StatisticsWriteInterface
+class CreateStatisticTable implements StatisticWriteInterface
 {
     private PDO $pdo;
 
@@ -36,7 +36,7 @@ class CreateStatisticsTable implements StatisticsWriteInterface
         );
     }
 
-    public function addItemInTable(
+    public function add(
         $aWinnerId,
         $shipNameId1,
         $shipQuantity1,

@@ -3,19 +3,19 @@
 ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
-use Service\CreateStatisticsTable;
-use Service\JsonFileStatisticsWrite;
+use Service\CreateStatisticTable;
+use Service\JsonFileStatisticWrite;
 use Service\Pagination;
 use Service\Session;
 
 $session = new Session();
 
 if (!empty($_POST['cleanButton'])) {
-    if ($container->checkShipStorage() == 'Service\StatisticsLoaderFromDatabase') {
-        $recreateTable = new CreateStatisticsTable($container->getPDO());
+    if ($container->checkShipStorage() == 'Service\StatisticLoaderFromDatabase') {
+        $recreateTable = new CreateStatisticTable($container->getPDO());
         $recreateTable->recreateTheTable();
-    } elseif ($container->checkShipStorage() == 'Service\JsonFileStatisticsLoader') {
-        $recreateTable = new JsonFileStatisticsWrite($container->getLocalFileStatisticsJson());
+    } elseif ($container->checkShipStorage() == 'Service\JsonFileStatisticLoader') {
+        $recreateTable = new JsonFileStatisticWrite($container->getLocalFileStatisticJson());
         $recreateTable->recreateTheTable();
     }
 }
@@ -25,19 +25,15 @@ if (isset($_GET['page'])) {
 } else {
     $page = 1;
 }
-$numberOfNextRecords = 50;
+
 $pagination = new Pagination(
-    $container->getPDO(),
-    $container->getLocalFileStatisticsJson(),
-    $page,
-    $numberOfNextRecords
+    $page
 );
-$session->set('numberOfFirstRecords', $pagination->getNumberOfFirstRecords());
-$session->set('numberOfNextRecords', $numberOfNextRecords);
 $numberOfDelimiter = 0;
 
-$statisticsLoader = $container->getStatisticsStorage();
-$statistics = $statisticsLoader->getStatistics();
+$statisticLoader = $container->getStatisticStorage();
+$statistic = $statisticLoader->getStatistic();
+$boundedStatisticArray = $pagination->boundedStatisticArray($statistic);
 $container->readShipStorage();
 ?>
 
@@ -47,7 +43,7 @@ $container->readShipStorage();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Статистика</title>
-    <link href="css/style-battle-statistics.css" rel="stylesheet">
+    <link href="css/style-battle-statistic.css" rel="stylesheet">
 </head>
 <body>
 <div class="divBasic">
@@ -58,7 +54,7 @@ $container->readShipStorage();
         <a href='?page=<?php echo $pagination->getBackPage(); ?>'><< </a>
     <?php
     }
-    for ($i = 1; $i <= $pagination->getPagesCount(); $i++) {
+    for ($i = 1; $i <= $pagination->getNumberPages(); $i++) {
         if ($i == $page) { ?>
             <b><a href='?page=<?php echo $i; ?>'><?php echo $i; ?></a></b>
     <?php
@@ -88,16 +84,16 @@ $container->readShipStorage();
         </tr>
         <tr>
             <?php
-            foreach ($statistics as $item) {
+            foreach ($boundedStatisticArray as $item) {
             $numberOfDelimiter++; ?>
         <tr>
             <td><?php echo $numberOfDelimiter; ?></td>
             <td><?php echo $item->getId(); ?></td>
-            <td><?php echo $statisticsLoader->transformIdToShip($item->getNameWinningShip()) ?></td>
-            <td><?php echo $statisticsLoader->transformIdToShip($item->getNameShip1()); ?></td>
+            <td><?php echo $statisticLoader->transformIdToShip($item->getNameWinningShip()) ?></td>
+            <td><?php echo $statisticLoader->transformIdToShip($item->getNameShip1()); ?></td>
             <td><?php echo $item->getShip1Quantity(); ?></td>
             <td><?php echo $item->getRemainingStrength1(); ?></td>
-            <td><?php echo $statisticsLoader->transformIdToShip($item->getNameShip2()); ?></td>
+            <td><?php echo $statisticLoader->transformIdToShip($item->getNameShip2()); ?></td>
             <td><?php echo $item->getShip2Quantity(); ?></td>
             <td><?php echo $item->getRemainingStrength2(); ?></td>
             <td><?php echo $item->getTimeBattle(); ?></td>
@@ -108,7 +104,7 @@ $container->readShipStorage();
     </table>
 </div>
 <div id="buttons">
-    <form action="/battle-statistics.php" method="POST">
+    <form action="/battle-statistic.php" method="POST">
         <input type="submit" name="cleanButton" id="buttonCleanImg" title="Очистить статистику" value="Clean">
     </form>
     <a href='/index.php' title="Обратно в бой!"><img src="picture/swords.png" id="buttonBattleImg"></a>

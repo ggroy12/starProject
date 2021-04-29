@@ -6,7 +6,7 @@ require __DIR__ . '/bootstrap.php';
 use Model\AbstractShip;
 use Model\BattleResult;
 
-$addItemInTable = $container->getStatisticsWrite();
+$statisticWrite = $container->getStatisticWrite();
 
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
@@ -134,7 +134,7 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             endif; ?>
             <?php
-            $addItemInTable->addItemInTable(
+            $statisticWrite->add(
                 $aWinner,
                 $ship1->getId(),
                 $ship1Quantity,
@@ -145,7 +145,7 @@ $battleResult = $container->getBattleManager()->battle(
             );
             ?>
         </p>
-        <a href="/battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
+        <a href="/battle-statistic.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
     </div>
     <a href="/index.php"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
 

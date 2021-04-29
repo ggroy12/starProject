@@ -6,7 +6,7 @@ namespace Service;
 
 use Model\Statistic;
 
-class JsonFileStatisticsLoader implements StatisticsStorageInterface
+class JsonFileStatisticLoader implements StatisticStorageInterface
 {
     private string $filePath;
 
@@ -22,7 +22,7 @@ class JsonFileStatisticsLoader implements StatisticsStorageInterface
         $this->fileShipsPath = $fileShipsPath;
     }
 
-    public function getStatistics(): array
+    public function getStatistic(): array
     {
         $fileContent = file_get_contents($this->filePath);
         $jsonStatistic = json_decode($fileContent, true);
@@ -32,11 +32,7 @@ class JsonFileStatisticsLoader implements StatisticsStorageInterface
                 $statistic[] = $this->transformDataToStatistic($dbStat);
             }
         }
-        $session = new Session();
-        $numberOfFirstRecords = $session->get('numberOfFirstRecords');
-        $numberOfNextPages = $session->get('numberOfNextRecords');
-        $result = array_reverse($statistic);
-        return array_slice($result, $numberOfFirstRecords, $numberOfNextPages);
+        return $statistic;
     }
 
     private function transformDataToStatistic(array $data): Statistic

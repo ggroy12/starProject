@@ -13,8 +13,8 @@ $pdo->exec('DROP TABLE IF EXISTS battle_history;');
 $pdo->exec(
     'CREATE TABLE `battle_history` (
         `id` int (6) NOT NULL AUTO_INCREMENT,
-        `aWinnerId` int DEFAULT NULL,
-        `nameShipId1` int (6) NOT NULL,
+        `aWinnerId` int (6) DEFAULT NULL,
+        `nameShipId1` int (6) NOT NULL ,
         `ship1Quantity` int (6) NOT NULL,
         `remainingStrength1` int (6) NOT NULL,
         `nameShipId2` int (6) NOT NULL,

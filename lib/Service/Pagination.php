@@ -8,29 +8,21 @@ use PDO;
 
 class Pagination
 {
-    private PDO $pdo;
-
-    private string $filePath;
-
     private int $page;
 
-    private int $numberOfNextRecords;
+    private int $limitOnPage = 10;
+
+    private int $totalLimit = 50;
 
     public function __construct(
-        PDO $pdo,
-        string $filePath,
         int $page,
-        int $numberOfNextRecords,
     ) {
-        $this->pdo = $pdo;
-        $this->filePath = $filePath;
         $this->page = $page;
-        $this->numberOfNextRecords = $numberOfNextRecords;
     }
 
     public function getNumberOfFirstRecords(): int
     {
-        return ($this->page - 1) * $this->numberOfNextRecords;
+        return ($this->page - 1) * $this->limitOnPage;
     }
 
     public function getBackPage(): int
@@ -43,30 +35,15 @@ class Pagination
         return ($this->page + 1);
     }
 
-    public function getPagesCount()
+    public function getNumberPages(): float
     {
-        return ceil($this->getNumberOfColumnsInTable() / $this->numberOfNextRecords);
+        return ceil($this->totalLimit / $this->limitOnPage);
     }
 
-    public function getNumberOfColumnsInTable()
+    public function boundedStatisticArray($arr): array
     {
-        $chekShipStorage = new Session();
-        if ($chekShipStorage->get('methodStorage') === 'Service\StatisticsLoaderFromDatabase') {
-            $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
-            foreach ($result as $item) {
-                return $item['count'];
-            }
-        } elseif ($chekShipStorage->get('methodStorage') === 'Service\JsonFileStatisticsLoader') {
-            $file = file_get_contents($this->filePath);
-            $arrayBattles = json_decode($file, true);
-            if ($arrayBattles) {
-                $arrayBattles = array_reverse($arrayBattles);
-                foreach ($arrayBattles as $item) {
-                    return $item['id'];
-                }
-            }
-        } else {
-            return false;
-        }
+        $result = array_reverse($arr);
+        $result = array_slice($result, 0, $this->totalLimit);
+        return array_slice($result, $this->getNumberOfFirstRecords(), $this->limitOnPage);
     }
 }

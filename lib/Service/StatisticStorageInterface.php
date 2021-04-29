@@ -6,10 +6,10 @@ namespace Service;
 
 use Model\Statistic;
 
-interface StatisticsStorageInterface
+interface StatisticStorageInterface
 {
     /**
      * @return Statistic[]
      */
-    public function getStatistics(): array;
+    public function getStatistic(): array;
 }
