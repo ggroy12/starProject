@@ -1,0 +1,12 @@
+{
+  "name": "origin/battle-manager",
+  "description": "Cool Space Battle",
+  "autoload": {
+    "psr-4": {
+      "": "lib/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*"
+  }
+}

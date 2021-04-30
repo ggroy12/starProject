@@ -1,5 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
+namespace Service;
+
+use Model\AbstractShip;
+use Model\RebelShip;
+use Model\Ship;
+use PDO;
 
 class PdoShipStorage implements ShipStorageInterface
 {
@@ -8,7 +16,7 @@ class PdoShipStorage implements ShipStorageInterface
     public function __construct(
         PDO $pdo
     ) {
-        $this->pdo =$pdo;
+        $this->pdo = $pdo;
     }
 
     /**
@@ -43,18 +51,15 @@ class PdoShipStorage implements ShipStorageInterface
 
     private function transformDataToShip(array $data): AbstractShip
     {
-        if ($data['team'] === 'rebel'){
+        if ($data['team'] === 'rebel') {
             $ship = new RebelShip($data['name']);
-        }
-        else {
+        } else {
             $ship = new Ship($data['name']);
             $ship->setJediFactor((int) $data['jedi_factor']);
-
         }
         $ship->setId((int) $data['id'])
             ->setWeaponPower((int) $data['weapon_power'])
-            ->setStrength((int) $data['strength'])
-        ;
+            ->setStrength((int) $data['strength']);
 
         return $ship;
     }

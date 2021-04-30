@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
-class CreateStatisticsTable implements StatisticsWriteInterface
+namespace Service;
+
+use PDO;
+
+class CreateStatisticTable implements StatisticWriteInterface
 {
     private PDO $pdo;
 
@@ -18,21 +22,24 @@ class CreateStatisticsTable implements StatisticsWriteInterface
         $this->pdo->exec('DROP TABLE IF EXISTS battle_history;');
         $this->pdo->exec(
             'CREATE TABLE `battle_history` (
-        `id` int(6) NOT NULL AUTO_INCREMENT,
-        `aWinnerId` int(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `nameShipId1` int(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `ship1Quantity` int NOT NULL,
-        `remainingStrength1` int(6) NOT NULL,
-        `nameShipId2` int(6) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `ship2Quantity` int NOT NULL,
-        `remainingStrength2` int(6) NOT NULL,
-        `timeBattle` DATETIME(0) NOT NULL,
-        PRIMARY KEY (`id`)
+        `id` int (6) NOT NULL AUTO_INCREMENT,
+        `aWinnerId` int (6) DEFAULT NULL,
+        `nameShipId1` int (6) NOT NULL ,
+        `ship1Quantity` int (6) NOT NULL,
+        `remainingStrength1` int (6) NOT NULL,
+        `nameShipId2` int (6) NOT NULL,
+        `ship2Quantity` int (6) NOT NULL,
+        `remainingStrength2` int (6) NOT NULL,
+        `timeBattle` DATETIME (0) NOT NULL,
+        PRIMARY KEY (`id`),
+        FOREIGN KEY (aWinnerId) REFERENCES ship (id),
+        FOREIGN KEY (nameShipId1) REFERENCES ship (id),
+        FOREIGN KEY (nameShipId2) REFERENCES ship (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
         );
     }
 
-    public function addItemInTable(
+    public function add(
         $aWinnerId,
         $shipNameId1,
         $shipQuantity1,
@@ -52,7 +59,7 @@ class CreateStatisticsTable implements StatisticsWriteInterface
                 remainingStrength2, 
                 timeBattle
                 )VALUES(
-                '{$aWinnerId}', 
+                " . $aWinnerId . ", 
                 '{$shipNameId1}', 
                 '{$shipQuantity1}', 
                 '{$shipStrength1}', 

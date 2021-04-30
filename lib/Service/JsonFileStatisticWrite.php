@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-class JsonFileStatisticsWrite implements StatisticsWriteInterface
+namespace Service;
+
+class JsonFileStatisticWrite implements StatisticWriteInterface
 {
     private string $filePath;
 
@@ -12,7 +14,7 @@ class JsonFileStatisticsWrite implements StatisticsWriteInterface
         $this->filePath = $filePath;
     }
 
-    public function addItemInTable(
+    public function add(
         $aWinnerId,
         $shipNameId1,
         $shipQuantity1,
@@ -37,7 +39,7 @@ class JsonFileStatisticsWrite implements StatisticsWriteInterface
             'timeBattle' => $this->timeBattle()
         );
 
-        file_put_contents($this->filePath, json_encode($arrayBattles));
+        file_put_contents($this->filePath, json_encode($arrayBattles, JSON_PRETTY_PRINT));
         unset($arrayBattles);
     }
 

@@ -3,7 +3,10 @@
 ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
-$addItemInTable = $container->getStatisticsWrite();
+use Model\AbstractShip;
+use Model\BattleResult;
+
+$statisticWrite = $container->getStatisticWrite();
 
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
@@ -13,13 +16,13 @@ $ship1Quantity = $_POST['ship1_quantity'] ?? 1;
 $ship2Id = (int)$_POST['ship2_id'] ?? null;
 $ship2Quantity = $_POST['ship2_quantity'] ?? 1;
 
-$ship1 = $shipLoader->find($ship1Id);
-$ship2 = $shipLoader->find($ship2Id);
-
 if ($ship1Id === null || $ship2Id === null) {
     header('Location: /index.php?error=missing_data');
     die();
 }
+
+$ship1 = $shipLoader->find($ship1Id);
+$ship2 = $shipLoader->find($ship2Id);
 
 if ($ship1 === null || $ship2 === null) {
     header('Location: /index.php?error=bad_ships');
@@ -31,11 +34,14 @@ if ($ship1Quantity <= 0 || $ship2Quantity <= 0) {
     die();
 }
 
+$battleType = $_POST['battle_type'] ?? 'normal';
+
 $battleResult = $container->getBattleManager()->battle(
     $ship1,
     $ship1Quantity,
     $ship2,
-    $ship2Quantity
+    $ship2Quantity,
+    $battleType
 );
 ?>
 
@@ -90,7 +96,7 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             else:?>
                 <?php
-                $aWinner = null; ?>
+                $aWinner = "NULL"; ?>
                 Ничья
             <?php
             endif; ?>
@@ -128,7 +134,7 @@ $battleResult = $container->getBattleManager()->battle(
             <?php
             endif; ?>
             <?php
-            $addItemInTable->addItemInTable(
+            $statisticWrite->add(
                 $aWinner,
                 $ship1->getId(),
                 $ship1Quantity,
@@ -139,7 +145,7 @@ $battleResult = $container->getBattleManager()->battle(
             );
             ?>
         </p>
-        <a href="/battle-statistics.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
+        <a href="/battle-statistic.php"><p class="text-center"> Посмотреть статистику боёв</p></a>
     </div>
     <a href="/index.php"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
 

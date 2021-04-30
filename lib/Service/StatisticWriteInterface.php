@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-interface StatisticsWriteInterface
+namespace Service;
+
+interface StatisticWriteInterface
 {
-    public function addItemInTable(
+    public function add(
         $aWinnerId,
         $shipNameId1,
         $shipQuantity1,

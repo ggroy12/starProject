@@ -2,24 +2,27 @@
 
 declare(strict_types=1);
 
-class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
+namespace Service;
+
+use Model\Statistic;
+use PDO;
+
+class StatisticLoaderFromDatabase implements StatisticStorageInterface
 {
     private PDO $pdo;
+
     private ?PdoShipStorage $shipLoader = null;
 
     public function __construct(
-        PDO $pdo,
+        PDO $pdo
     ) {
         $this->pdo = $pdo;
     }
 
-    public function getStatistics(): array
+    public function getStatistic(): array
     {
-        $session = new Session();
-        $numberOfFirstRecords = $session->get('numberOfFirstRecords');
-        $numberOfNextPages = $session->get('numberOfNextRecords');
         $statement = $this->pdo->query(
-            "SELECT * FROM battle_history ORDER BY id DESC LIMIT $numberOfFirstRecords, $numberOfNextPages"
+            "SELECT * FROM battle_history"
         );
         $statement->execute();
         $dbStatistic = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -46,12 +49,12 @@ class StatisticsLoaderFromDatabase implements StatisticsStorageInterface
         );
     }
 
-    public function transformIdToShip($idShip): string
+    public function transformIdToShip($idShip): ?string
     {
         if ($this->shipLoader === null) {
             $this->shipLoader = new PdoShipStorage($this->pdo);
         }
-        if ($idShip == null) {
+        if (empty($idShip)) {
             return 'Ничья';
         }
         $ships = $this->shipLoader->getAllShips();
