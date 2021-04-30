@@ -50,11 +50,12 @@ $container->readShipStorage();
     <h2 class="headlines">Сухая статистика</h2>
     <?php
     /*_________________Pagination button______________*/
+    $countNumber = $pagination->getCountNumber($statistic);
     if ($pagination->getBackPage() !== 0){ ?>
         <a href='?page=<?php echo $pagination->getBackPage(); ?>'><< </a>
     <?php
     }
-    for ($i = 1; $i <= $pagination->getNumberPages(); $i++) {
+    for ($i = 1; $i <= $pagination->getNumberPages($countNumber); $i++) {
         if ($i == $page) { ?>
             <b><a href='?page=<?php echo $i; ?>'><?php echo $i; ?></a></b>
     <?php

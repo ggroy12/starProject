@@ -13,5 +13,5 @@ interface ShipStorageInterface
      */
     public function getAllShips(): array;
 
-    public  function getSingleShip(int $id): ?AbstractShip;
+    public function getSingleShip(int $id): ?AbstractShip;
 }

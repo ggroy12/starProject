@@ -35,9 +35,16 @@ class Pagination
         return ($this->page + 1);
     }
 
-    public function getNumberPages(): float
+    public function getNumberPages($countNumber): float
     {
-        return ceil($this->totalLimit / $this->limitOnPage);
+        return ceil($countNumber / $this->limitOnPage);
+    }
+
+    public function getCountNumber($array): int
+    {
+        $result = array_reverse($array);
+        $result = array_slice($result, 0, $this->totalLimit);
+        return count($result);
     }
 
     public function boundedStatisticArray($arr): array

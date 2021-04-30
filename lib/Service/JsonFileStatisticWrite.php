@@ -39,7 +39,7 @@ class JsonFileStatisticWrite implements StatisticWriteInterface
             'timeBattle' => $this->timeBattle()
         );
 
-        file_put_contents($this->filePath, json_encode($arrayBattles));
+        file_put_contents($this->filePath, json_encode($arrayBattles, JSON_PRETTY_PRINT));
         unset($arrayBattles);
     }
 

@@ -85,7 +85,7 @@ class Container
     {
         if ($this->statisticWrite === null) {
 //                $this->statisticWrite = new CreateStatisticTable($this->getPDO());
-                $this->statisticWrite = new JsonFileStatisticWrite($this->getLocalFileStatisticJson());
+            $this->statisticWrite = new JsonFileStatisticWrite($this->getLocalFileStatisticJson());
         }
 
         return $this->statisticWrite;
@@ -95,10 +95,10 @@ class Container
     {
         if ($this->statisticStorage === null) {
 //                $this->statisticStorage = new StatisticLoaderFromDatabase($this->getPDO());
-                $this->statisticStorage = new JsonFileStatisticLoader(
-                    $this->getLocalFileStatisticJson(),
-                    $this->getLocalFileShipsJson(),
-                );
+            $this->statisticStorage = new JsonFileStatisticLoader(
+                $this->getLocalFileStatisticJson(),
+                $this->getLocalFileShipsJson(),
+            );
         }
 
         return $this->statisticStorage;
@@ -114,10 +114,5 @@ class Container
     {
         $chekShipStorage = new Session();
         return $chekShipStorage->get('methodStorage');
-    }
-
-    public function config()
-    {
-        return $this->configuration['localFileStatisticJson'];
     }
 }

@@ -21,7 +21,10 @@ $pdo->exec(
         `ship2Quantity` int (6) NOT NULL,
         `remainingStrength2` int (6) NOT NULL,
         `timeBattle` DATETIME (0) NOT NULL,
-        PRIMARY KEY (`id`)
+        PRIMARY KEY (`id`),
+        FOREIGN KEY (aWinnerId) REFERENCES ship (id),
+        FOREIGN KEY (nameShipId1) REFERENCES ship (id),
+        FOREIGN KEY (nameShipId2) REFERENCES ship (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
 );
 
