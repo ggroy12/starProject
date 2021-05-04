@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\AbstractShip;
+use Model\ShipCollection;
 
 class ShipLoader
 {
@@ -19,9 +20,14 @@ class ShipLoader
     /**
      * @return AbstractShip[]
      */
-    public function getShips(): array
+    public function getShips(): ShipCollection
     {
-        return $this->shipStorage->getAllShips();
+        try {
+            return new ShipCollection($this->shipStorage->getAllShips());
+        } catch (\Exception $e) {
+            trigger_error($e->getMessage());
+            return [];
+        }
     }
 
     public function find(int $id): ?AbstractShip

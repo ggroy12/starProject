@@ -43,6 +43,7 @@ $battleResult = $container->getBattleManager()->battle(
     $ship2Quantity,
     $battleType
 );
+
 ?>
 
 <html lang="ru">
@@ -92,7 +93,7 @@ $battleResult = $container->getBattleManager()->battle(
             if ($battleResult->isHereAWinner()): ?>
                 <?php
                 echo $battleResult->getWinningShip()->getName();
-                $aWinner = $battleResult->getWinningShip()->getId(); ?>
+                $aWinner = $battleResult['winningShip']->getId(); ?>
             <?php
             else:?>
                 <?php
@@ -103,14 +104,10 @@ $battleResult = $container->getBattleManager()->battle(
 
             <h3>Остаток прочности</h3>
             <dl class="dl-horizontal">
-                <dt><?php
-                    echo $ship1->getName(); ?></dt>
-                <dd><?php
-                    echo $ship1->getStrength(); ?></dd>
-                <dt><?php
-                    echo $ship2->getName(); ?></dt>
-                <dd><?php
-                    echo $ship2->getStrength(); ?></dd>
+                <dt><?php echo $ship1; ?></dt>
+                <dd><?php echo $ship1->getStrength(); ?></dd>
+                <dt><?php echo $ship2; ?></dt>
+                <dd><?php echo $ship2->getStrength(); ?></dd>
             </dl>
         </h3>
         <p class="text-center">
