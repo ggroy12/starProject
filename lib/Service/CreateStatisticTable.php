@@ -59,7 +59,7 @@ class CreateStatisticTable implements StatisticWriteInterface
                 remainingStrength2, 
                 timeBattle
                 )VALUES(
-                " . $aWinnerId . ", 
+                '{$aWinnerId}', 
                 '{$shipNameId1}', 
                 '{$shipQuantity1}', 
                 '{$shipStrength1}', 

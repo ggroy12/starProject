@@ -73,10 +73,10 @@ class Container
     public function getShipStorage(): ShipStorageInterface
     {
         if ($this->shipStorage === null) {
-            $shipStorage = new PdoShipStorage($this->getPDO());
+            $this->shipStorage /*$shipStorage*/ = new PdoShipStorage($this->getPDO());
 //            $this->shipStorage = new JsonFileShipStorage($this->getLocalFileShipsJson());
 
-            $this->shipStorage = new LoggalableShipStorage($shipStorage);
+//            $this->shipStorage = new LoggalableShipStorage($shipStorage);
         }
 
         return $this->shipStorage;
@@ -86,8 +86,8 @@ class Container
 //    public function getStatisticWrite()
     {
         if ($this->statisticWrite === null) {
-//                $this->statisticWrite = new CreateStatisticTable($this->getPDO());
-            $this->statisticWrite = new JsonFileStatisticWrite($this->getLocalFileStatisticJson());
+                $this->statisticWrite = new CreateStatisticTable($this->getPDO());
+//            $this->statisticWrite = new JsonFileStatisticWrite($this->getLocalFileStatisticJson());
         }
 
         return $this->statisticWrite;
@@ -96,11 +96,11 @@ class Container
     public function getStatisticStorage(): StatisticStorageInterface
     {
         if ($this->statisticStorage === null) {
-//                $this->statisticStorage = new StatisticLoaderFromDatabase($this->getPDO());
-            $this->statisticStorage = new JsonFileStatisticLoader(
-                $this->getLocalFileStatisticJson(),
-                $this->getLocalFileShipsJson(),
-            );
+                $this->statisticStorage = new StatisticLoaderFromDatabase($this->getPDO());
+//            $this->statisticStorage = new JsonFileStatisticLoader(
+//                $this->getLocalFileStatisticJson(),
+//                $this->getLocalFileShipsJson(),
+//            );
         }
 
         return $this->statisticStorage;

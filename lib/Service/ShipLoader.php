@@ -17,14 +17,11 @@ class ShipLoader
         $this->shipStorage = $shipStorage;
     }
 
-    /**
-     * @return AbstractShip[]
-     */
-    public function getShips(): ShipCollection
+    public function getShips()
     {
         try {
             return new ShipCollection($this->shipStorage->getAllShips());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             trigger_error($e->getMessage());
             return [];
         }

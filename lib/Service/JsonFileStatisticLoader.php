@@ -24,15 +24,20 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
 
     public function getStatistic(): array
     {
-        $fileContent = file_get_contents($this->filePath);
-        $jsonStatistic = json_decode($fileContent, true);
-        $statistic = [];
-        if ($jsonStatistic) {
-            foreach ($jsonStatistic as $dbStat) {
-                $statistic[] = $this->transformDataToStatistic($dbStat);
+        try {
+            $fileContent = file_get_contents($this->filePath);
+            $jsonStatistic = json_decode($fileContent, true);
+            $statistic = [];
+            if ($jsonStatistic) {
+                foreach ($jsonStatistic as $dbStat) {
+                    $statistic[] = $this->transformDataToStatistic($dbStat);
+                }
             }
+            return $statistic;
+        } catch (\Throwable $e) {
+            trigger_error($e->getMessage());
+            return [];
         }
-        return $statistic;
     }
 
     private function transformDataToStatistic(array $data): Statistic
@@ -61,6 +66,6 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
         $ships = $this->shipLoader->getAllShips();
         $ship = $this->shipLoader->getSingleShip($idShip);
 
-        return $ship->getName();
+        return empty($ship) ? "ID '$idShip' is not correct!" : $ship->getName();
     }
 }

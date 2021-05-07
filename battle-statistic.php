@@ -1,6 +1,5 @@
 <?php
 
-ini_set('display_errors', 'on');
 require __DIR__ . '/bootstrap.php';
 
 use Service\CreateStatisticTable;
@@ -33,6 +32,8 @@ $numberOfDelimiter = 0;
 
 $statisticLoader = $container->getStatisticStorage();
 $statistic = $statisticLoader->getStatistic();
+echo '<pre>';
+var_dump($statistic);
 $boundedStatisticArray = $pagination->boundedStatisticArray($statistic);
 $container->readShipStorage();
 ?>
@@ -85,7 +86,7 @@ $container->readShipStorage();
         </tr>
         <tr>
             <?php
-            foreach ($boundedStatisticArray as $item) {
+            foreach ($boundedStatisticArray as $item):
             $numberOfDelimiter++; ?>
         <tr>
             <td><?php echo $numberOfDelimiter; ?></td>
@@ -99,8 +100,7 @@ $container->readShipStorage();
             <td><?php echo $item->getRemainingStrength2(); ?></td>
             <td><?php echo $item->getTimeBattle(); ?></td>
         </tr>
-        <?php
-        } ?>
+        <?php endforeach; ?>
         </tr>
     </table>
 </div>

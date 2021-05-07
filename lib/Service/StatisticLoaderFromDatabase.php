@@ -21,17 +21,22 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
 
     public function getStatistic(): array
     {
-        $statement = $this->pdo->query(
-            "SELECT * FROM battle_history"
-        );
-        $statement->execute();
-        $dbStatistic = $statement->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $statement = $this->pdo->query(
+                "SELECT * FROM battle_history"
+            );
+            $statement->execute();
+            $dbStatistic = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $statistic = [];
-        foreach ($dbStatistic as $dbStat) {
-            $statistic[] = $this->transformDataToStatistic($dbStat);
+            $statistic = [];
+            foreach ($dbStatistic as $dbStat) {
+                $statistic[] = $this->transformDataToStatistic($dbStat);
+            }
+            return $statistic;
+        } catch (\Throwable $e) {
+            trigger_error($e->getMessage());
+            return [];
         }
-        return $statistic;
     }
 
     private function transformDataToStatistic(array $data): Statistic
@@ -60,6 +65,6 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
         $ships = $this->shipLoader->getAllShips();
         $ship = $this->shipLoader->getSingleShip($idShip);
 
-        return $ship->getName();
+        return empty($ship) ? "ID '$idShip' is not correct!" : $ship->getName();
     }
 }
