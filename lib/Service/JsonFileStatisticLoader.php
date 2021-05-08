@@ -29,10 +29,8 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
             $fileContent = file_get_contents($this->filePath);
             $jsonStatistic = json_decode($fileContent, true);
             $statistic = [];
-            if ($jsonStatistic) {
-                foreach ($jsonStatistic as $dbStat) {
-                    $statistic[] = $this->transformDataToStatistic($dbStat);
-                }
+            foreach ($jsonStatistic as $data) {
+                $statistic[] = $this->transformDataToStatistic($data);
             }
             return new StatisticCollection($statistic);
         } catch (\Throwable $e) {
@@ -43,15 +41,15 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
 
     private function transformDataToStatistic(array $data): Statistic
     {
-        return $statistic = new Statistic(
+        return new Statistic(
             (int) $data['id'],
-            (int) $data['aWinner'],
-            (int) $data['shipName1'],
-            (int) $data['shipQuantity1'],
-            (int) $data['shipStrength1'],
-            (int) $data ['shipName2'],
-            (int) $data['shipQuantity2'],
-            (int) $data['shipStrength2'],
+            (int) $data['aWinnerId'],
+            (int) $data['nameShipId1'],
+            (int) $data['ship1Quantity'],
+            (int) $data['remainingStrength1'],
+            (int) $data ['nameShipId2'],
+            (int) $data['ship2Quantity'],
+            (int) $data['remainingStrength2'],
             (string) $data['timeBattle']
         );
     }

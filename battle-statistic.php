@@ -32,6 +32,8 @@ $numberOfDelimiter = 0;
 
 $statisticLoader = $container->getStatisticStorage();
 $statistic = $statisticLoader->getStatistic();
+echo 'pre';
+var_dump($statistic);
 //$boundedStatisticArray = $pagination->boundedStatisticArray($statistic);
 $container->readShipStorage();
 

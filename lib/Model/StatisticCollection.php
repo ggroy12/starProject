@@ -6,15 +6,8 @@ namespace Model;
 
 class StatisticCollection implements \ArrayAccess, \IteratorAggregate
 {
-    /**
-     * @var Statistic[]
-     */
     private array $statistic;
 
-    /**
-     * ShipCollection constructor.
-     * @param Statistic[] $statistic
-     */
     public function __construct(
         array $statistic
     ) {
@@ -28,16 +21,16 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
         return $this;
     }
 
-    public function deleteById($id): self
-    {
-        $this->statistic[$id] = [];
-        foreach ($this->statistic as $item) {
-            if ($item->getId() === $id) {
-               $item = [];
-            }
-            return $this;
-        }
-    }
+//    public function deleteById($id): self
+//    {
+//        $this->statistic[$id] = [];
+//        foreach ($this->statistic as $item) {
+//            if ($item->getId() === $id) {
+//               $item = [];
+//            }
+//            return $this;
+//        }
+//    }
 
     public function getIterator(): \ArrayIterator
     {
