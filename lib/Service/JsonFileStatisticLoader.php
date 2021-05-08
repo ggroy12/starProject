@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\Statistic;
-use Model\StatisticCollection;
 
 class JsonFileStatisticLoader implements StatisticStorageInterface
 {
@@ -23,7 +22,7 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
         $this->fileShipsPath = $fileShipsPath;
     }
 
-    public function getStatistic(): StatisticCollection
+    public function getStatistic(): array
     {
         try {
             $fileContent = file_get_contents($this->filePath);
@@ -32,10 +31,10 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
             foreach ($jsonStatistic as $data) {
                 $statistic[] = $this->transformDataToStatistic($data);
             }
-            return new StatisticCollection($statistic);
+            return $statistic;
         } catch (\Throwable $e) {
             trigger_error($e->getMessage());
-            return new StatisticCollection([]);
+            return [];
         }
     }
 
