@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\Statistic;
+use Model\StatisticCollection;
 
 interface StatisticStorageInterface
 {
     /**
-     * @return Statistic[]
+     * @return StatisticCollection
      */
-    public function getStatistic(): array;
+    public function getStatistic(): StatisticCollection;
 }

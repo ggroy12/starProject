@@ -823,5 +823,16 @@
         "shipQuantity2": "3",
         "shipStrength2": 0,
         "timeBattle": "2021:05:07:20:22:40"
+    },
+    {
+        "id": 76,
+        "aWinner": 1,
+        "shipName1": 3,
+        "shipQuantity1": "32",
+        "shipStrength1": 0,
+        "shipName2": 1,
+        "shipQuantity2": "30",
+        "shipStrength2": 900,
+        "timeBattle": "2021:05:08:10:43:06"
     }
 ]

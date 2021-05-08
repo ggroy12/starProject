@@ -18,9 +18,7 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
     public function __construct(
         array $statistic
     ) {
-        foreach ($statistic as $item){
-            $this->add($item);
-        }
+        $this->statistic = $statistic;
     }
 
     public function add($statistic): self
@@ -28,6 +26,17 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
         $this->statistic[] = $statistic;
 
         return $this;
+    }
+
+    public function deleteById($id): self
+    {
+        $this->statistic[$id] = [];
+        foreach ($this->statistic as $item) {
+            if ($item->getId() === $id) {
+               $item = [];
+            }
+            return $this;
+        }
     }
 
     public function getIterator(): \ArrayIterator
