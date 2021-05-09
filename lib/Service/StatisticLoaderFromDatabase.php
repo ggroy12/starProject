@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\Statistic;
+use Model\StatisticCollection;
 use PDO;
 
 class StatisticLoaderFromDatabase implements StatisticStorageInterface
@@ -19,7 +20,7 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
         $this->pdo = $pdo;
     }
 
-    public function getStatistic(): array
+    public function getStatistic(): StatisticCollection
     {
         try {
             $statement = $this->pdo->query(
@@ -32,10 +33,10 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
             foreach ($dbStatistic as $dbStat) {
                 $statistic[] = $this->transformDataToStatistic($dbStat);
             }
-            return $statistic;
+            return new StatisticCollection($statistic);
         } catch (\Throwable $e) {
             trigger_error($e->getMessage());
-            return [];
+            return new StatisticCollection([]);
         }
     }
 

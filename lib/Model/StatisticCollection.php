@@ -6,35 +6,37 @@ namespace Model;
 
 class StatisticCollection implements \ArrayAccess, \IteratorAggregate
 {
+    /**
+     * @var Statistic[]
+     */
     private array $statistic;
 
+    /**
+     * $StatisticCollection constructor.
+     * @param Statistic[] $statistic
+     */
     public function __construct(
         array $statistic
     ) {
-        $this->statistic = $statistic;
+        foreach ($statistic as $data) {
+            $this->add($data);
+        }
     }
 
-    public function add($statistic): self
+    public function add(Statistic $value): self
     {
-        $this->statistic[] = $statistic;
+        $this->statistic[] = $value;
 
         return $this;
     }
 
-//    public function deleteById($id): self
-//    {
-//        $this->statistic[$id] = [];
-//        foreach ($this->statistic as $item) {
-//            if ($item->getId() === $id) {
-//               $item = [];
-//            }
-//            return $this;
-//        }
-//    }
-
     public function getIterator(): \ArrayIterator
     {
-        return new \ArrayIterator($this->statistic);
+        try {
+            return new \ArrayIterator($this->statistic);
+        } catch (\Throwable $e) {
+            return new \ArrayIterator([]);
+        }
     }
 
     public function offsetExists($offset)
@@ -62,5 +64,38 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
         $this->statistic = [];
 
         return $this;
+    }
+
+    public function deleteByKey($key): void
+    {
+        unset($this->statistic[$key]);
+    }
+
+    public function deleteByObject(int $story): void
+    {
+        foreach ($this->statistic as $data) {
+            if ($data->getId() === $story) {
+                unset($this->statistic[$story]);
+            }
+        }
+    }
+
+    public function count($array): int
+    {
+        return count($array);
+    }
+
+    public function arrayReverse(): array
+    {
+        try {
+            return array_reverse($this->statistic);
+        } catch (\Throwable $e) {
+            return [];
+        }
+    }
+
+    public function arraySlice($array, $firstRecording, $totalLimit): array
+    {
+        return array_slice($array, $firstRecording, $totalLimit);
     }
 }

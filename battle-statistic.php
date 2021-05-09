@@ -25,20 +25,9 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 
-$pagination = new Pagination(
-    $page
-);
-$numberOfDelimiter = 0;
-
 $statisticLoader = $container->getStatisticStorage();
 $statistic = $statisticLoader->getStatistic();
-echo 'pre';
-var_dump($statistic);
-//$boundedStatisticArray = $pagination->boundedStatisticArray($statistic);
 $container->readShipStorage();
-
-//$statistic->deleteById(1);
-
 ?>
 
 <html lang="ru">
@@ -54,24 +43,38 @@ $container->readShipStorage();
     <h2 class="headlines">Сухая статистика</h2>
     <?php
     /*_________________Pagination button______________*/
-//    $countNumber = $pagination->getCountNumber($statistic);
-//    if ($pagination->getBackPage() !== 0){ ?>
-<!--        <a href='?page=--><?php //echo $pagination->getBackPage(); ?><!--'><< </a>-->
-<!--    --><?php
-//    }
-//    for ($i = 1; $i <= $pagination->getNumberPages($countNumber); $i++) {
-//        if ($i == $page) { ?>
-<!--            <b><a href='?page=--><?php //echo $i; ?><!--'>--><?php //echo $i; ?><!--</a></b>-->
-<!--    --><?php
-//        } else { ?>
-<!--            <a href='?page=--><?php //echo $i; ?><!--'>--><?php //echo $i; ?><!--</a>-->
-<!--    --><?php
-//        }
-//    }
-//    if ($pagination->getOnwardPage() < $i){ ?>
-<!--        <a href='?page=--><?php //echo $pagination->getOnwardPage(); ?><!--'>>> </a>-->
-<!--    --><?php
-//    } ?>
+    $pagination = new Pagination(
+        $page
+    );
+    $numberOfDelimiter = 0;
+    $statisticReverse = $statistic->arrayReverse();
+    $statisticSlice = $statistic->arraySlice($statisticReverse,
+        $pagination->getFirstRecording(),
+        $pagination->getTotalLimit(),
+    );
+    $statisticCount = $statistic->count($statisticSlice);
+    $statisticResult = $statistic->arraySlice(
+        $statisticSlice,
+        $pagination->getNumberOfFirstRecords(),
+        $pagination->getLimitOnPage(),
+    );
+    if ($pagination->getBackPage() !== 0) { ?>
+        <a href='?page=<?php echo $pagination->getBackPage(); ?>'><< </a>
+    <?php
+    }
+    for ($i = 1; $i <= $pagination->getNumberPages($statisticCount); $i++) {
+        if ($i == $page) { ?>
+            <b><a href='?page=<?php echo $i; ?>'><?php echo $i; ?></a></b>
+    <?php
+        } else { ?>
+            <a href='?page=<?php echo $i; ?>'><?php echo $i; ?></a>
+    <?php
+        }
+    }
+    if ($pagination->getOnwardPage() < $i) { ?>
+        <a href='?page=<?php echo $pagination->getOnwardPage(); ?>'>>> </a>
+    <?php
+    } ?>
 
     <table cellpadding="5" class="table">
         <tr class="tr">
@@ -89,7 +92,8 @@ $container->readShipStorage();
         </tr>
         <tr>
             <?php
-            foreach ($statistic as $item):
+            foreach ($statisticResult as $item):
+            if (!empty($item)):
             $numberOfDelimiter++; ?>
         <tr>
             <td><?php echo $numberOfDelimiter; ?></td>
@@ -103,7 +107,7 @@ $container->readShipStorage();
             <td><?php echo $item->getRemainingStrength2(); ?></td>
             <td><?php echo $item->getTimeBattle(); ?></td>
         </tr>
-        <?php endforeach; ?>
+        <?php endif; endforeach; ?>
         </tr>
     </table>
 </div>

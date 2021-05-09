@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\Statistic;
+use Model\StatisticCollection;
 
 class JsonFileStatisticLoader implements StatisticStorageInterface
 {
@@ -22,33 +23,35 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
         $this->fileShipsPath = $fileShipsPath;
     }
 
-    public function getStatistic(): array
+    public function getStatistic(): StatisticCollection
     {
         try {
             $fileContent = file_get_contents($this->filePath);
             $jsonStatistic = json_decode($fileContent, true);
             $statistic = [];
-            foreach ($jsonStatistic as $data) {
-                $statistic[] = $this->transformDataToStatistic($data);
+            if ($jsonStatistic) {
+                foreach ($jsonStatistic as $dbStat) {
+                    $statistic[] = $this->transformDataToStatistic($dbStat);
+                }
             }
-            return $statistic;
+            return new StatisticCollection($statistic);
         } catch (\Throwable $e) {
             trigger_error($e->getMessage());
-            return [];
+            return new StatisticCollection([]);
         }
     }
 
     private function transformDataToStatistic(array $data): Statistic
     {
-        return new Statistic(
+        return $statistic = new Statistic(
             (int) $data['id'],
-            (int) $data['aWinnerId'],
-            (int) $data['nameShipId1'],
-            (int) $data['ship1Quantity'],
-            (int) $data['remainingStrength1'],
-            (int) $data ['nameShipId2'],
-            (int) $data['ship2Quantity'],
-            (int) $data['remainingStrength2'],
+            (int) $data['aWinner'],
+            (int) $data['shipName1'],
+            (int) $data['shipQuantity1'],
+            (int) $data['shipStrength1'],
+            (int) $data ['shipName2'],
+            (int) $data['shipQuantity2'],
+            (int) $data['shipStrength2'],
             (string) $data['timeBattle']
         );
     }
