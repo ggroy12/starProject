@@ -240,5 +240,27 @@
         "shipQuantity2": "2",
         "shipStrength2": -120,
         "timeBattle": "2021:05:09:00:49:10"
+    },
+    {
+        "id": 23,
+        "aWinner": 3,
+        "shipName1": 3,
+        "shipQuantity1": "32",
+        "shipStrength1": 15880,
+        "shipName2": 4,
+        "shipQuantity2": "30",
+        "shipStrength2": -740,
+        "timeBattle": "2021:05:16:13:52:50"
+    },
+    {
+        "id": 24,
+        "aWinner": 3,
+        "shipName1": 3,
+        "shipQuantity1": "32",
+        "shipStrength1": 15790,
+        "shipName2": 3,
+        "shipQuantity2": "3",
+        "shipStrength2": -740,
+        "timeBattle": "2021:05:16:13:53:58"
     }
 ]
