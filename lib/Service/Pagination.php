@@ -1,42 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
+namespace Service;
+
+use PDO;
 
 class Pagination
 {
-    private PDO $pdo;
+    private int $page;
+
+    private int $limitOnPage = 10;
+
+    private int $totalLimit = 50;
 
     public function __construct(
-        PDO $pdo
+        int $page,
     ) {
-        $this->pdo = $pdo;
-    }
-    public function numberOfColumnsInTable():string {
-        $result = $this->pdo->query("SELECT COUNT(*) as count FROM battle_history");
-        foreach ($result as $item) {
-            return $item['count'];
-        }
+        $this->page = $page;
     }
 
-    public function pagination(
-        $page,
-        $count,
-        $numberOfNextRecords,
-    ) {
-        $pagesCount = ceil($count/$numberOfNextRecords);
-        $backPage = ($page-1);
-        $onwardPage = ($page+1);
-        if ($backPage !== 0){
-            echo "<a href='?page=$backPage'><< </a>";}
-        for ($i = 1; $i <= $pagesCount; $i++){
-            if ($i == $page){
-                echo "<b><a href='?page=$i'>$i </a></b>";
-            }
-            else {
-                echo "<a href='?page=$i'>$i </a>";
-            }
-        }
-        if ($onwardPage < $i){
-            echo "<a href='?page=$onwardPage'>>> </a>";
-        }
+    public function getNumberOfFirstRecords(): int
+    {
+        return ($this->page - 1) * $this->limitOnPage;
+    }
+
+    public function getBackPage(): int
+    {
+        return ($this->page - 1);
+    }
+
+    public function getOnwardPage(): int
+    {
+        return ($this->page + 1);
+    }
+
+    public function getNumberPages($countNumber): float
+    {
+        return ceil($countNumber / $this->limitOnPage);
+    }
+
+    public function getCountNumber($array): int
+    {
+        $result = array_reverse($array);
+        $result = array_slice($result, 0, $this->totalLimit);
+        return count($result);
+    }
+
+    public function boundedStatisticArray($arr): array
+    {
+        $result = array_reverse($arr);
+        $result = array_slice($result, 0, $this->totalLimit);
+        return array_slice($result, $this->getNumberOfFirstRecords(), $this->limitOnPage);
     }
 }

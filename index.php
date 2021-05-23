@@ -1,11 +1,17 @@
 <?php
+
 ini_set('display_errors', 'on');
 
 require __DIR__ . '/bootstrap.php';
 
+use Model\BrokenShip;
+use Service\BattleManager;
 
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
+
+$brokenShip = new BrokenShip('Just a hunk of metal');
+$ships[] = $brokenShip;
 
 $errorMessage = '';
 if (isset($_GET['error'])) {
@@ -73,6 +79,9 @@ if (isset($_GET['error'])) {
                             <td><?php echo $ship->getWeaponPower(); ?></td>
                             <td><?php echo $ship->getJediFactor(); ?></td>
                             <td><?php echo $ship->getStrength(); ?></td>
+                            <td><?php echo $ship->isFunctional() ? 'Да' : 'Нет'; ?></td>
+                            <td><?php echo $ship->getTeam(); ?></td>
+                            <td><?php echo $ship->getNameAndSpecs(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -80,7 +89,7 @@ if (isset($_GET['error'])) {
             
             <div class="battle-box center-block border">
                 <div>
-                    <form method="POST" action="battle.php">
+                    <form method="POST" action="/battle.php">
                         <h2 class="text-center">Миссия</h2>
                         <input class="center-block form-control text-field" type="text" name="ship1_quantity" placeholder="Enter Number of Ships" />
                         <select class="center-block form-control btn drp-dwn-width btn-default dropdown-toggle" name="ship1_id">
@@ -99,6 +108,14 @@ if (isset($_GET['error'])) {
                                 <option value="<?php echo $ship->getId(); ?>"><?php echo $ship->getName(); ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <div class="text-center">
+                            <labe for="battle_type">Тип битвы</labe>
+                            <select name="battle_type" id="battle_type" class="form-control drp-dwn-width center-block">
+                                <?php foreach (BattleManager::getTypes() as $key => $type): ?>
+                                    <option value="<?php echo $key; ?>"><?php echo $type; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <br>
                         <button class="btn btn-md btn-danger center-block" type="submit">В атаку!</button>
                     </form>
