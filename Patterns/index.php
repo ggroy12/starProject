@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-require __DIR__ . '/AbstractShip.php';
-require __DIR__ . '/StarEmpireShip.php';
-require __DIR__ . '/RepublicNordsShip.php';
+require __DIR__ . '/AbstractConnection.php';
+require __DIR__ . '/Instagram.php';
+require __DIR__ . '/Telegram.php';
 
-$starEmpireShip = new StarEmpireShip(1, 'Star Ship', 65, 1500);
-$nordsCrusaderShip = new RepublicNordsShip(1, 'Crusader Ship', 88, 1200);
+$connectionTelegram = new Telegram('userT', 12345678);
+echo $connectionTelegram->publish();
 
-echo $starEmpireShip->getTeam() . '<br>';
-echo $starEmpireShip->descriptionTeam() . '<br>';
+echo '<br>';
 
-echo $nordsCrusaderShip->getTeam() . '<br>';
-echo $nordsCrusaderShip->descriptionTeam() . '<br>';
-
-
+$connectionInstagram = new Instagram('userI', 87654321);
+echo $connectionInstagram->publish();
+echo 'Completed';
