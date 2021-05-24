@@ -11,9 +11,9 @@ $statisticWrite = $container->getStatisticWrite();
 $shipLoader = $container->getShipLoader();
 $ships = $shipLoader->getShips();
 
-$ship1Id = (int)$_POST['ship1_id'] ?? null;
+$ship1Id = (int) $_POST['ship1_id'] ?? null;
 $ship1Quantity = $_POST['ship1_quantity'] ?? 1;
-$ship2Id = (int)$_POST['ship2_id'] ?? null;
+$ship2Id = (int) $_POST['ship2_id'] ?? null;
 $ship2Quantity = $_POST['ship2_quantity'] ?? 1;
 
 if ($ship1Id === null || $ship2Id === null) {

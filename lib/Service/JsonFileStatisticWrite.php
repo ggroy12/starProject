@@ -15,7 +15,7 @@ class JsonFileStatisticWrite implements StatisticWriteInterface
     }
 
     public function add(
-        $aWinnerId,
+        $winnerId,
         $shipNameId1,
         $shipQuantity1,
         $shipStrength1,
@@ -29,7 +29,7 @@ class JsonFileStatisticWrite implements StatisticWriteInterface
 
         $arrayBattles[] = array(
             'id' => $this->idBattle($arrayBattles),
-            'aWinner' => $aWinnerId,
+            'aWinner' => $winnerId,
             'shipName1' => $shipNameId1,
             'shipQuantity1' => $shipQuantity1,
             'shipStrength1' => $shipStrength1,

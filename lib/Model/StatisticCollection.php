@@ -12,7 +12,6 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
     private array $statistic;
 
     /**
-     * $StatisticCollection constructor.
      * @param Statistic[] $statistic
      */
     public function __construct(
@@ -66,12 +65,12 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
         return $this;
     }
 
-    public function deleteByKey($key): void
+    public function remove($key): void
     {
         unset($this->statistic[$key]);
     }
 
-    public function deleteByObject(int $story): void
+    public function removeElement($story): void
     {
         foreach ($this->statistic as $data) {
             if ($data->getId() === $story) {
@@ -85,7 +84,7 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
         return count($array);
     }
 
-    public function arrayReverse(): array
+    public function reverse(): array
     {
         try {
             return array_reverse($this->statistic);
@@ -94,7 +93,7 @@ class StatisticCollection implements \ArrayAccess, \IteratorAggregate
         }
     }
 
-    public function arraySlice($array, $firstRecording, $totalLimit): array
+    public function slice($array, $firstRecording, $totalLimit): array
     {
         return array_slice($array, $firstRecording, $totalLimit);
     }

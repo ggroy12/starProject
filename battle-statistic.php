@@ -47,34 +47,36 @@ $container->readShipStorage();
         $page
     );
     $numberOfDelimiter = 0;
-    $statisticReverse = $statistic->arrayReverse();
-    $statisticSlice = $statistic->arraySlice($statisticReverse,
+    $statisticReverse = $statistic->reverse();
+    $statisticSlice = $statistic->slice($statisticReverse,
         $pagination->getFirstRecording(),
         $pagination->getTotalLimit(),
     );
     $statisticCount = $statistic->count($statisticSlice);
-    $statisticResult = $statistic->arraySlice(
+    $statisticResult = $statistic->slice(
         $statisticSlice,
         $pagination->getNumberOfFirstRecords(),
         $pagination->getLimitOnPage(),
     );
-    if ($pagination->getBackPage() !== 0) { ?>
+    
+    if ($pagination->getBackPage() !== 0): ?>
         <a href='?page=<?php echo $pagination->getBackPage(); ?>'><< </a>
     <?php
-    }
-    for ($i = 1; $i <= $pagination->getNumberPages($statisticCount); $i++) {
-        if ($i == $page) { ?>
+    endif;
+
+    for ($i = 1; $i <= $pagination->getNumberPages($statisticCount); $i++):
+        if ($i == $page): ?>
             <b><a href='?page=<?php echo $i; ?>'><?php echo $i; ?></a></b>
-    <?php
-        } else { ?>
+        <?php else:  ?>
             <a href='?page=<?php echo $i; ?>'><?php echo $i; ?></a>
-    <?php
-        }
-    }
-    if ($pagination->getOnwardPage() < $i) { ?>
+        <?php
+        endif;
+    endfor;
+
+    if ($pagination->getOnwardPage() < $i): ?>
         <a href='?page=<?php echo $pagination->getOnwardPage(); ?>'>>> </a>
     <?php
-    } ?>
+    endif; ?>
 
     <table cellpadding="5" class="table">
         <tr class="tr">
