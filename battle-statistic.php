@@ -47,13 +47,13 @@ $container->readShipStorage();
         $page
     );
     $numberOfDelimiter = 0;
-    $statisticReverse = $statistic->arrayReverse();
-    $statisticSlice = $statistic->arraySlice($statisticReverse,
+    $statisticReverse = $statistic->reverse();
+    $statisticSlice = $statistic->slice($statisticReverse,
         $pagination->getFirstRecording(),
         $pagination->getTotalLimit(),
     );
     $statisticCount = $statistic->count($statisticSlice);
-    $statisticResult = $statistic->arraySlice(
+    $statisticResult = $statistic->slice(
         $statisticSlice,
         $pagination->getNumberOfFirstRecords(),
         $pagination->getLimitOnPage(),

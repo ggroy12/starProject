@@ -44,7 +44,7 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
     {
         return $statistic = new Statistic(
             (int) $data['id'],
-            (int) $data['aWinnerId'],
+            (int) $data['winnerId'],
             (int) $data['nameShipId1'],
             (int) $data['ship1Quantity'],
             (int) $data['remainingStrength1'],
