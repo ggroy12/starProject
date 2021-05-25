@@ -7,7 +7,7 @@ namespace Service;
 interface StatisticWriteInterface
 {
     public function add(
-        $aWinnerId,
+        $winnerId,
         $shipNameId1,
         $shipQuantity1,
         $shipStrength1,

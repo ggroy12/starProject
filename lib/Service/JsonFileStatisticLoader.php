@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\Statistic;
+use Model\StatisticCollection;
 
 class JsonFileStatisticLoader implements StatisticStorageInterface
 {
@@ -22,17 +23,22 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
         $this->fileShipsPath = $fileShipsPath;
     }
 
-    public function getStatistic(): array
+    public function getStatistic(): StatisticCollection
     {
-        $fileContent = file_get_contents($this->filePath);
-        $jsonStatistic = json_decode($fileContent, true);
-        $statistic = [];
-        if ($jsonStatistic) {
-            foreach ($jsonStatistic as $dbStat) {
-                $statistic[] = $this->transformDataToStatistic($dbStat);
+        try {
+            $fileContent = file_get_contents($this->filePath);
+            $jsonStatistic = json_decode($fileContent, true);
+            $statistic = [];
+            if ($jsonStatistic) {
+                foreach ($jsonStatistic as $dbStat) {
+                    $statistic[] = $this->transformDataToStatistic($dbStat);
+                }
             }
+            return new StatisticCollection($statistic);
+        } catch (\Throwable $e) {
+            trigger_error($e->getMessage());
+            return new StatisticCollection([]);
         }
-        return $statistic;
     }
 
     private function transformDataToStatistic(array $data): Statistic
@@ -61,6 +67,6 @@ class JsonFileStatisticLoader implements StatisticStorageInterface
         $ships = $this->shipLoader->getAllShips();
         $ship = $this->shipLoader->getSingleShip($idShip);
 
-        return $ship->getName();
+        return empty($ship) ? "ID '$idShip' is not correct!" : $ship->getName();
     }
 }

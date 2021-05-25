@@ -73,8 +73,10 @@ class Container
     public function getShipStorage(): ShipStorageInterface
     {
         if ($this->shipStorage === null) {
-            $this->shipStorage = new PdoShipStorage($this->getPDO());
+            $this->shipStorage /*$shipStorage*/ = new PdoShipStorage($this->getPDO());
 //            $this->shipStorage = new JsonFileShipStorage($this->getLocalFileShipsJson());
+
+//            $this->shipStorage = new LoggalableShipStorage($shipStorage);
         }
 
         return $this->shipStorage;

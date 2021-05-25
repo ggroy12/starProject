@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Service;
 
+use Model\ShipCollection;
+use Model\StatisticCollection;
 use PDO;
 
 class Pagination
@@ -12,12 +14,29 @@ class Pagination
 
     private int $limitOnPage = 10;
 
+    private int $firstRecording = 0;
+
     private int $totalLimit = 50;
 
     public function __construct(
         int $page,
     ) {
         $this->page = $page;
+    }
+
+    public function getLimitOnPage(): int
+    {
+        return $this->limitOnPage;
+    }
+
+    public function getFirstRecording(): int
+    {
+        return $this->firstRecording;
+    }
+
+    public function getTotalLimit(): int
+    {
+        return $this->totalLimit;
     }
 
     public function getNumberOfFirstRecords(): int
@@ -38,19 +57,5 @@ class Pagination
     public function getNumberPages($countNumber): float
     {
         return ceil($countNumber / $this->limitOnPage);
-    }
-
-    public function getCountNumber($array): int
-    {
-        $result = array_reverse($array);
-        $result = array_slice($result, 0, $this->totalLimit);
-        return count($result);
-    }
-
-    public function boundedStatisticArray($arr): array
-    {
-        $result = array_reverse($arr);
-        $result = array_slice($result, 0, $this->totalLimit);
-        return array_slice($result, $this->getNumberOfFirstRecords(), $this->limitOnPage);
     }
 }

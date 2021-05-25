@@ -101,6 +101,11 @@ abstract class AbstractShip
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
     abstract public function getTeam(): string;
 
     abstract public function isFunctional(): bool;

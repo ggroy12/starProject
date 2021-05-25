@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service;
 
 use Model\Statistic;
+use Model\StatisticCollection;
 use PDO;
 
 class StatisticLoaderFromDatabase implements StatisticStorageInterface
@@ -19,26 +20,31 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
         $this->pdo = $pdo;
     }
 
-    public function getStatistic(): array
+    public function getStatistic(): StatisticCollection
     {
-        $statement = $this->pdo->query(
-            "SELECT * FROM battle_history"
-        );
-        $statement->execute();
-        $dbStatistic = $statement->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $statement = $this->pdo->query(
+                "SELECT * FROM battle_history"
+            );
+            $statement->execute();
+            $dbStatistic = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $statistic = [];
-        foreach ($dbStatistic as $dbStat) {
-            $statistic[] = $this->transformDataToStatistic($dbStat);
+            $statistic = [];
+            foreach ($dbStatistic as $dbStat) {
+                $statistic[] = $this->transformDataToStatistic($dbStat);
+            }
+            return new StatisticCollection($statistic);
+        } catch (\Throwable $e) {
+            trigger_error($e->getMessage());
+            return new StatisticCollection([]);
         }
-        return $statistic;
     }
 
     private function transformDataToStatistic(array $data): Statistic
     {
         return $statistic = new Statistic(
             (int) $data['id'],
-            (int) $data['aWinnerId'],
+            (int) $data['winnerId'],
             (int) $data['nameShipId1'],
             (int) $data['ship1Quantity'],
             (int) $data['remainingStrength1'],
@@ -60,6 +66,6 @@ class StatisticLoaderFromDatabase implements StatisticStorageInterface
         $ships = $this->shipLoader->getAllShips();
         $ship = $this->shipLoader->getSingleShip($idShip);
 
-        return $ship->getName();
+        return empty($ship) ? "ID '$idShip' is not correct!" : $ship->getName();
     }
 }

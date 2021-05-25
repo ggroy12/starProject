@@ -23,7 +23,7 @@ class CreateStatisticTable implements StatisticWriteInterface
         $this->pdo->exec(
             'CREATE TABLE `battle_history` (
         `id` int (6) NOT NULL AUTO_INCREMENT,
-        `aWinnerId` int (6) DEFAULT NULL,
+        `winnerId` int (6) DEFAULT NULL,
         `nameShipId1` int (6) NOT NULL ,
         `ship1Quantity` int (6) NOT NULL,
         `remainingStrength1` int (6) NOT NULL,
@@ -32,7 +32,7 @@ class CreateStatisticTable implements StatisticWriteInterface
         `remainingStrength2` int (6) NOT NULL,
         `timeBattle` DATETIME (0) NOT NULL,
         PRIMARY KEY (`id`),
-        FOREIGN KEY (aWinnerId) REFERENCES ship (id),
+        FOREIGN KEY (winnerId) REFERENCES ship (id),
         FOREIGN KEY (nameShipId1) REFERENCES ship (id),
         FOREIGN KEY (nameShipId2) REFERENCES ship (id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
@@ -40,7 +40,7 @@ class CreateStatisticTable implements StatisticWriteInterface
     }
 
     public function add(
-        $aWinnerId,
+        $winnerId,
         $shipNameId1,
         $shipQuantity1,
         $shipStrength1,
@@ -50,7 +50,7 @@ class CreateStatisticTable implements StatisticWriteInterface
     ): void {
         $this->pdo->exec(
             "INSERT INTO battle_history(
-                aWinnerId, 
+                winnerId, 
                 nameShipId1, 
                 ship1Quantity, 
                 remainingStrength1, 
@@ -59,7 +59,7 @@ class CreateStatisticTable implements StatisticWriteInterface
                 remainingStrength2, 
                 timeBattle
                 )VALUES(
-                " . $aWinnerId . ", 
+                '{$winnerId}', 
                 '{$shipNameId1}', 
                 '{$shipQuantity1}', 
                 '{$shipStrength1}', 
