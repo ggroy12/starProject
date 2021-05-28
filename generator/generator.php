@@ -8,9 +8,9 @@ error_reporting(E_ALL);
 
 $generator = new Generators($container->getPDO());
 
-foreach ($generator->getRecords(10000) as $text) {
-    echo $generator->convert(memory_get_usage()) . '<br>';
-    print_r($text) . "<br>";
+foreach ($generator->getRecords(10000) as $item){
+    echo $generator->convert(memory_get_usage()) . "\n";
+    print_r($item);
 }
 
 echo 'Completed!';

@@ -19,15 +19,30 @@ class Generators
         return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . '' . $until[$i];
     }
 
-    public function getRecords($limit = 0, $firstRecords = 0): Generator
+    public function getRecords($limit)
     {
+        $timeStart = microtime(true);
+        $step = 0;
 
-        $statement = $this->pdo->query(
-            "SELECT * FROM random_records limit $firstRecords, $limit"
-        );
-        $statement->execute();
-        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $item) {
-            yield $item;
+        while (true) {
+            $firstRecord = ($step * $limit);
+            $statement = $this->pdo->query(
+                "SELECT * FROM random_records limit $firstRecord, $limit"
+            );
+
+            $statement->execute();
+            if ($statement->rowCount() === 0){
+                break;
+            }
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                yield $row;
+            }
+            $step++;
         }
+
+        echo $this->convert(memory_get_usage()) . "\n";
+        $timeEnd = microtime(true);
+        echo ($timeEnd - $timeStart) . ' seconds' . "\n";
     }
 }
